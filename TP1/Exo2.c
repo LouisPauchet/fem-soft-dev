@@ -9,11 +9,16 @@ int main() {
 
     initMatrix(&mat1);
     fillMatrix(&mat1);
-    printf("test");
+    
     initMatrix(&mat2);
     fillMatrix(&mat2);
+    
 
+    system("clear");
+    dispMatrix(mat1);
+    dispMatrix(mat2);
     dispMatrix(matrixProduct(&mat1, &mat2));
+    //dispMatrix(matrixTranspose(&mat1));
 }
 
 
