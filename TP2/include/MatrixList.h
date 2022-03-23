@@ -35,7 +35,7 @@ struct MatrixList* getNodeByName(struct MatrixList*, char*); //Permet d'onbtenir
 
 /*Setteur*/
 
-void setMemory(struct MatrixList*); //Permet d'allouer la mémoire d'un maillon de la chaine
+struct MatrixList* setMemory(); //Permet d'allouer la mémoire d'un maillon de la chaine
 void setMatrix(struct MatrixList*, struct Matrix*); //Permet d'ajouter une matrice à un maillon
 void setNext(struct MatrixList*, struct MatrixList*); //Permet d'ajouter l'élément suivant à un maillon
 void setPrec(struct MatrixList*, struct MatrixList*); //Permet d'ajouter l'élément précédent à un maillon
@@ -154,8 +154,10 @@ struct MatrixList* getNodeByName(struct MatrixList* node, char* name) {
 
 /*On alloue un espace mémoire à un maillon*/
 
-void setMemory(struct MatrixList** node) {
-    *node = malloc(sizeof(struct MatrixList));  //a revoir
+struct MatrixList* setMemory() {
+    struct MatrixList* space;
+    space = (struct MatrixList*) (malloc(sizeof(struct MatrixList)));  //a revoir
+    return space;
 }
 
 /* On ajout une matrice à un maillon */
@@ -195,7 +197,7 @@ void setBegin(struct MatrixList* node) {
 
 void newNodeEnd(struct MatrixList* node) {
     struct MatrixList* NewNode = NULL;
-    setMemory(NewNode);
+    NewNode = setMemory();
 
     setEnd(NewNode);
 
@@ -211,7 +213,7 @@ void newNodeBegin(struct MatrixList* node) {
 
     struct MatrixList* NewNode = NULL;
 
-    setMemory(NewNode);
+    NewNode = setMemory();
 
     setBegin(NewNode);
 
@@ -228,7 +230,7 @@ void newNodeBegin(struct MatrixList* node) {
 void newNodeIndex(struct MatrixList* node, int index) {
     struct MatrixList* NewNode = NULL;
 
-    setMemory(NewNode);
+    NewNode = setMemory();
 
     node = getPrec(getNodeByIndex(node,index));
 
@@ -313,4 +315,3 @@ void delNode(struct MatrixList* node) {
     delMemory(node);
 
 }
-
