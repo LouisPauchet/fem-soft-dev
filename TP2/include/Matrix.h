@@ -50,7 +50,7 @@ int getSizeY (struct Matrix mat) {
     return mat.sizeY;
 }
 
-char* getName (struct Matrix *mat) {
+char* getName (struct Matrix* mat) {
     /*char _name[NameLenth];
     strcpy(_name, mat.name);*/
     return mat->name;
