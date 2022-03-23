@@ -154,8 +154,8 @@ struct MatrixList* getNodeByName(struct MatrixList* node, char* name) {
 
 /*On alloue un espace mémoire à un maillon*/
 
-void setMemory(struct MatrixList* node) {
-    node = malloc(sizeof(struct MatrixList));
+void setMemory(struct MatrixList** node) {
+    *node = malloc(sizeof(struct MatrixList));  //a revoir
 }
 
 /* On ajout une matrice à un maillon */
