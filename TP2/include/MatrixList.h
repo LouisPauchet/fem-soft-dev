@@ -44,6 +44,8 @@ void setBegin(struct MatrixList*); //Permet de définir le maillon comme le prem
 
 /*Opérateur de type*/
 
+struct MatrixList* listInit();
+
 void newNodeEnd(struct MatrixList*); //permet de créer un noeud à la fin de la liste
 void newNodeBegin(struct MatrixList*); //permet de créer un noued au début de la liste
 void newNodeIndex(struct MatrixList*, int); //permet de créer un noeud dans la liste
@@ -51,7 +53,7 @@ void newNodeIndex(struct MatrixList*, int); //permet de créer un noeud dans la 
 void delMemory(struct MatrixList*); // permet de déalouer la mémoire
 void delNodeEnd(struct MatrixList*); //permet de supprimer le dernier noeud
 void delNodeBegin(struct MatrixList*); //permet de supprimer le premier noeud de la liste
-void delNodeIndex(struct MatrixList*); //permet de supprimer un noeud dans la liste
+void delNodeIndex(struct MatrixList*, int); //permet de supprimer un noeud dans la liste
 
 
 /*####################*/
@@ -99,7 +101,7 @@ struct MatrixList* getLast(struct MatrixList* node) {
 /*Obtient le nom de la matrice du noeud*/
 
 char* getName (struct MatrixList* node) {
-    return getName(getMatrix(node));
+    return getNameMatrix(getMatrix(node));
 }
 
 /*Obtenir l'indice de l'élément*/
@@ -207,6 +209,20 @@ void newNodeEnd(struct MatrixList* node) {
     setPrec(NewNode, node);
 }
 
+/*Création du premier noeud*/
+
+struct MatrixList* listInit() {
+    struct MatrixList* NewNode = NULL;
+
+    NewNode = setMemory();
+
+    setBegin(NewNode);
+    setEnd(NewNode);
+
+    return NewNode;
+
+}
+
 /*Création d'un noeud au début de la liste*/
 
 void newNodeBegin(struct MatrixList* node) {
@@ -282,7 +298,7 @@ void delNodeBegin(struct MatrixList* node) {
 /* Suprimer un noeud selon son index */
 
 void delNodeIndex(struct MatrixList* node, int index) {
-    
+
     struct MatrixList* older;
 
     node = getNodeByIndex(node, index);

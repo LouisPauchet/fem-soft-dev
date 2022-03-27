@@ -19,7 +19,7 @@ struct Matrix
 double getValue( struct Matrix, int, int); //Obtenir une valeur de la matrice
 int getSizeX (struct Matrix); //Obtenir la taille X
 int getSizeY (struct Matrix); //Obtenir la taille Y
-char* getName (struct Matrix*); //Obtenir le nom de la matrice
+char* getNameMatrix (struct Matrix*); //Obtenir le nom de la matrice
 void setSizeX (struct Matrix*, int); //Saisir la taille X
 void setSizeY (struct Matrix*, int); //Saisir la taille Y
 void setName (struct Matrix*, char*); //Saisir le nom
@@ -27,13 +27,14 @@ void setValue (struct Matrix*, double, int , int); //Saisir la valeur
 void initMatrix( struct Matrix*); //Procédure d'initialisation d'une matrice
 void initMatrixSilent( struct Matrix*); //Procédure d'initalisation silencieuse
 void fillMatrix( struct Matrix*); //Procédure de remplissage d'une matrice
-void dispMatrix( struct Matrix); //Procédure d'affichage d'une matrice
+void dispMatrix( struct Matrix*); //Procédure d'affichage d'une matrice
 void freeMatrix( struct Matrix*); //libère l'espace mémoire d'une matrice
 struct Matrix matrixProduct(struct Matrix*, struct Matrix*); //Fonction de calcul d'un produit matriciel
 struct Matrix matrixTranspose(struct Matrix*); //Foonction de détermination de la transposée
 struct Matrix matrixSum(struct Matrix*, struct Matrix*); //fonction pour réaliser une somme de matrice
 struct Matrix matrixScalar(struct Matrix*, double); //fonction pour multiplier par un scalaire
 int matrixEqual(struct Matrix*, struct Matrix*); //Comparaison de matrice
+struct Matrix* newMatrix(); //Crée une nouvelle matrice et renvoie un pointeur sur celle là
 
 /* Déclaration des fonction */
 
@@ -50,7 +51,7 @@ int getSizeY (struct Matrix mat) {
     return mat.sizeY;
 }
 
-char* getName (struct Matrix* mat) {
+char* getNameMatrix (struct Matrix* mat) {
     /*char _name[NameLenth];
     strcpy(_name, mat.name);*/
     return mat->name;
@@ -101,7 +102,7 @@ void initMatrix(struct Matrix* pMat) {
     scanf("%s", pMat->name);
     //fgets(pMat->name, sizeof(pMat->name), stdin);
 
-    printf("Donnez les dimenssions de la matrice %s \n", getName(pMat));
+    printf("Donnez les dimenssions de la matrice %s \n", getNameMatrix(pMat));
     int _X, _Y;
     printf("Dimenssion X : ");
     scanf("%d", &_X);
@@ -150,7 +151,7 @@ void initMatrixSilent(struct Matrix* pMat) {
 
 void fillMatrix(struct Matrix* pMat) {
     system("clear");
-    dispMatrix(*pMat);
+    dispMatrix(pMat);
     char choice;
     printf("Pour modifier tous les éléments de la matrice, saisir a, pour modifier certains éléments saisir u : ");
     scanf("%s", &choice);
@@ -160,7 +161,7 @@ void fillMatrix(struct Matrix* pMat) {
             for (int j=0;j<getSizeY(*pMat);j++){
                     double value;
                     system("clear");
-                    dispMatrix(*pMat);
+                    dispMatrix(pMat);
                     printf("(%d,%d) = ",i,j);
                     scanf("%lf",&value);
                     setValue(pMat, value, i, j);
@@ -179,21 +180,21 @@ void fillMatrix(struct Matrix* pMat) {
             printf("Saisir coordonnée Y de la valeur à modifier : ");
             scanf("%d", &n);
 
-            dispMatrix(*pMat);
+            dispMatrix(pMat);
 
             printf("(%d,%d) = ",m,n);
             scanf("%lf",&value);
 
             setValue(pMat, value, m, n);
 
-            dispMatrix(*pMat);
+            dispMatrix(pMat);
 
             printf("Saisir une autre valeur ? (y,n) ");
             scanf("%s", &choice);
         }
     }
     system("clear");
-    dispMatrix(*pMat);
+    dispMatrix(pMat);
 }
 
 /*Procédure pour afficher une matrice*/
@@ -205,16 +206,16 @@ void Ligne() {
     printf("\n");
 }
 
-void dispMatrix( struct Matrix Mat){
+void dispMatrix( struct Matrix* Mat){
 
     Ligne();
 
 /* On créer la première ligne en affichant les numéros de colonnes */
     printf("Affichage matrice : ");
-    puts(getName(&Mat));
+    printf("%s \n",getNameMatrix(Mat));
     printf("     "); //5 espaces
 
-    for (int j=0;j<getSizeY(Mat);j++) {
+    for (int j=0;j<getSizeY(*Mat);j++) {
         printf("    (%2d)   ", j);
     }
 
@@ -222,10 +223,10 @@ void dispMatrix( struct Matrix Mat){
 
     printf(" \n");
 
-        for (int i=0;i<getSizeX(Mat);i++){
+        for (int i=0;i<getSizeX(*Mat);i++){
             printf("(%2d) ", i);
-            for (int j=0;j<getSizeY(Mat);j++){
-                printf("|%1.4e",getValue(Mat,i,j));
+            for (int j=0;j<getSizeY(*Mat);j++){
+                printf("|%1.4e",getValue(*Mat,i,j));
             }
             printf("|\n");
         }
@@ -252,9 +253,9 @@ struct Matrix matrixProduct(struct Matrix* mat1, struct Matrix* mat2) {
     char _name[NameLenth] = "\0";
     strcat(_name, "PM_");
        
-    strncat(_name, getName(mat1), (int)((NameLenth-3)/2));
+    strncat(_name, getNameMatrix(mat1), (int)((NameLenth-3)/2));
     strcat(_name, "-");
-    strncat(_name, getName(mat2), (int)((NameLenth-3)/2));
+    strncat(_name, getNameMatrix(mat2), (int)((NameLenth-3)/2));
 
     setName(&result, _name);
 
@@ -301,7 +302,7 @@ struct Matrix matrixTranspose(struct Matrix* mat) {
     char _name[NameLenth] = "\0";
     strcat(_name, "TR_");
        
-    strncat(_name, getName(mat), (int)(NameLenth-1));
+    strncat(_name, getNameMatrix(mat), (int)(NameLenth-1));
     setName(&result, _name);
 
 
@@ -330,9 +331,9 @@ struct Matrix matrixSum(struct Matrix* mat1, struct Matrix* mat2) {
     char _name[NameLenth] = "\0";
     strcat(_name, "SUM_");
        
-    strncat(_name, getName(mat1), (int)((NameLenth-3)/2));
+    strncat(_name, getNameMatrix(mat1), (int)((NameLenth-3)/2));
     strcat(_name, "-");
-    strncat(_name, getName(mat2), (int)((NameLenth-3)/2));
+    strncat(_name, getNameMatrix(mat2), (int)((NameLenth-3)/2));
 
     if ((getSizeX(*mat1)==getSizeX(*mat2))&&(getSizeY(*mat1)==getSizeY(*mat2))) {
         setSizeX(&result, getSizeX(*mat1));
@@ -361,7 +362,7 @@ struct Matrix matrixScalar(struct Matrix* mat, double a) {
     char _name[NameLenth] = "\0";
     strcat(_name, "SCP_");
        
-    strncat(_name, getName(mat), (int)((NameLenth-3)/2));
+    strncat(_name, getNameMatrix(mat), (int)((NameLenth-3)/2));
     
 
     setSizeX(&result, getSizeX(*mat));
@@ -399,4 +400,13 @@ int matrixEqual(struct Matrix* mat1, struct Matrix* mat2) {
     }
 
     return result;
+}
+
+
+struct Matrix* newMatrix() {
+    struct Matrix* newMatrix = (struct Matrix*) malloc(sizeof(struct Matrix));
+
+    initMatrix(newMatrix);
+
+    return newMatrix;
 }
