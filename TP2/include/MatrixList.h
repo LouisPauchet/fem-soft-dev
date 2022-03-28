@@ -167,6 +167,7 @@ struct MatrixList* setMemory() {
 void setMatrix(struct MatrixList* node, struct Matrix* mat) {
     node->mat = (struct Matrix*) malloc(sizeof(struct Matrix));
     memcpy(node->mat, mat, sizeof(struct Matrix));
+    freeMatrix(mat);
 }
 
 /* On ajoute l'élément suivant à un maillon */
@@ -270,8 +271,9 @@ void delNodeEnd(struct MatrixList* node) {
     node = getLast(node);
 
     freeMatrix(getMatrix(node));
-
-    setEnd(getPrec(node));
+    if (getPrec(node) != NULL){
+        setEnd(getPrec(node));
+    }
     
     delMemory(node);
 
