@@ -103,14 +103,16 @@ void initMatrix(struct Matrix* pMat) {
     //fgets(pMat->name, sizeof(pMat->name), stdin);
 
     printf("Donnez les dimenssions de la matrice %s \n", getNameMatrix(pMat));
-    int _X, _Y;
-    printf("Dimenssion X : ");
-    scanf("%d", &_X);
-    printf("Dimenssion Y : ");
-    scanf("%d", &_Y);
-
-    setSizeX(pMat, _X);
-    setSizeY(pMat, _Y);
+    {
+        int _X, _Y;
+        printf("Dimenssion X : ");
+        scanf("%d", &_X);
+        printf("Dimenssion Y : ");
+        scanf("%d", &_Y);
+        
+        setSizeX(pMat, _X);
+        setSizeY(pMat, _Y);
+    }
 
     initMatrixSilent(pMat);
 
@@ -287,6 +289,7 @@ struct Matrix matrixProduct(struct Matrix* mat1, struct Matrix* mat2) {
 
     else {
         printf("ERREUR - Produit Matriciel- Defaut de comptatibilité ! \n");
+        setSizeX(&result,0); setSizeY(&result,0);
         initMatrixSilent(&result);
         exit;
     }

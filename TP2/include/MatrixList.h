@@ -81,8 +81,8 @@ struct MatrixList* getPrec(struct MatrixList* node) {
 /*Obtenir le premier élément de la liste*/
 
 struct MatrixList* getFirst(struct MatrixList* node) {
-    while (getNext(node) != NULL) {
-        node = getNext(node);
+    while (getPrec(node) != NULL) {
+        node = getPrec(node);
     }
 
     return node;
@@ -91,7 +91,7 @@ struct MatrixList* getFirst(struct MatrixList* node) {
 /* Obtenir le dernier élément de la liste */
 
 struct MatrixList* getLast(struct MatrixList* node) {
-    while (getPrec(node) != NULL) {
+    while (getNext(node) != NULL) {
         node = getNext(node);
     }
 
@@ -165,7 +165,8 @@ struct MatrixList* setMemory() {
 /* On ajout une matrice à un maillon */
 
 void setMatrix(struct MatrixList* node, struct Matrix* mat) {
-    node->mat = mat;
+    node->mat = (struct Matrix*) malloc(sizeof(struct Matrix));
+    memcpy(node->mat, mat, sizeof(struct Matrix));
 }
 
 /* On ajoute l'élément suivant à un maillon */
