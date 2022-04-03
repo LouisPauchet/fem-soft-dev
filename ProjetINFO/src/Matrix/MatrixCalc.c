@@ -11,7 +11,7 @@
 
 
 #ifndef Matrix
-#include "Matrix.h"
+#include "../include/Matrix.h"
 
 #endif
 
@@ -24,10 +24,11 @@
  * 
  * @param matA Pointeur sur la matrice A
  * @param matB Pointeur sur la matrice B
+ * @param Name Nom à donner à la nouvelle matrice
  * 
  * @return On revoie un pointeur sur une nouvelle matrice.
  */
-pMatrix matrixProduct(pMatrix matA, pMatrix matB) {
+pMatrix matrixProduct(pMatrix matA, pMatrix matB, char* Name) {
 
 }
 

@@ -12,10 +12,11 @@ DOCCONF = ./doc/Doxyfile
 DOCINDEX = $(DOCHTML)/index.html
 WEBNAV = firefox
 
-
+test :
 
 clean :
 	rm -rf *.o
+	rm -rf $(DOCHTML)
 
 
 docs: $(DOCINDEX)
