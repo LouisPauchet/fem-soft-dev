@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>INFO2 - Développement de logiciel:  Fichier source de src/Matrix/Matrix.h</title>
+<link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../jquery.js"></script>
+<script type="text/javascript" src="../../dynsections.js"></script>
+<link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+<link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">INFO2 - Développement de logiciel
+   &#160;<span id="projectnumber">1</span>
+   </div>
+   <div id="projectbrief">L&#39;objectif est d&#39;apprendre les méthodes de développement de logiciel.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Recherche','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_b16e19d0c4a2719fd01fb3b9035a19cd.html">Matrix</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">Matrix.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/d45/_matrix_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#ifndef True</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#add3ca9eefe3b5b754426f51d3043e579">    9</a></span>&#160;<span class="preprocessor">#define True 1</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#a306ebd41c0cd1303b1372c6153f0caf8">   15</a></span>&#160;<span class="preprocessor">#define False 0</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#aa6812575f6579530bfa1c888cd740228">   21</a></span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">int</span> <a class="code" href="../../d0/d45/_matrix_8h.html#aa6812575f6579530bfa1c888cd740228">BOOLEAN</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#ifndef Matrix</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">    #ifndef NameLenth</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#a20ccef885fe0688aec6968dcbc1bbc2b">   32</a></span>&#160;<span class="preprocessor">    #define NameLenth 20</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">    #endif</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html">   41</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="../../d5/d22/struct_matrix.html">Matrix</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html#abb1b37fd555f6fea3b6a3e23eaa6e77f">   42</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="../../d5/d22/struct_matrix.html#abb1b37fd555f6fea3b6a3e23eaa6e77f">name</a>[<a class="code" href="../../d0/d45/_matrix_8h.html#a20ccef885fe0688aec6968dcbc1bbc2b">NameLenth</a>]; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html#a95940fa0c2498b0cf8ee4c55d75dda0e">   43</a></span>&#160;    <span class="keywordtype">double</span> **<a class="code" href="../../d5/d22/struct_matrix.html#a95940fa0c2498b0cf8ee4c55d75dda0e">tab</a>; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html#ad5433f5795d61feb221500552a24efc0">   44</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d22/struct_matrix.html#ad5433f5795d61feb221500552a24efc0">SizeX</a>; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html#a573319684e32070e6d09cb6ea810a0d5">   45</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d22/struct_matrix.html#a573319684e32070e6d09cb6ea810a0d5">SizeY</a>; </div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../d5/d22/struct_matrix.html#a984128e9fb8b9ea72935a03dc63555d4">   46</a></span>&#160;    <a class="code" href="../../d0/d45/_matrix_8h.html#aa6812575f6579530bfa1c888cd740228">BOOLEAN</a> <a class="code" href="../../d5/d22/struct_matrix.html#a984128e9fb8b9ea72935a03dc63555d4">isSym</a>; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#a9570374e3dbc873595100dae1e584459">   47</a></span>&#160;} <a class="code" href="../../d0/d45/_matrix_8h.html#a9570374e3dbc873595100dae1e584459">Matrix</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d0/d45/_matrix_8h.html#a2220102ad188a6b29c5e873801f49909">   54</a></span>&#160;<span class="keyword">typedef</span> <a class="code" href="../../d5/d22/struct_matrix.html">Matrix</a>* <a class="code" href="../../d0/d45/_matrix_8h.html#a2220102ad188a6b29c5e873801f49909">pMatrix</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a> <a class="code" href="../../d0/d45/_matrix_8h.html#abb780b4407a79e234f864854c4687cef">matrixNew</a>(<span class="keywordtype">int</span>, <span class="keywordtype">int</span>, <span class="keywordtype">char</span>*);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/d45/_matrix_8h.html#a69b54d2eb9269d136862833a8f9b8c69">matrixDel</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a> <a class="code" href="../../d0/d45/_matrix_8h.html#a9532bd4a690c85475d95f0e8bed64f00">matrixProduct</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>, <a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a> <a class="code" href="../../d0/d45/_matrix_8h.html#aa2bf78b43b68a18258e7816205c11a92">matrixTranspose</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a> <a class="code" href="../../d0/d45/_matrix_8h.html#ac6e8a1de4b6e29c3a22630e3c70d2dc2">matrixSum</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>, <a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a> <a class="code" href="../../d0/d45/_matrix_8h.html#ab5abfef5840d9f707edb9b8ad05bfecb">matrixScalar</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>, <span class="keywordtype">double</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<a class="code" href="../../d0/d45/_matrix_8h.html#aa6812575f6579530bfa1c888cd740228">BOOLEAN</a> <a class="code" href="../../d0/d45/_matrix_8h.html#aef1a01ba80993bdc1d14c82e2f6329c1">matrixIsEqual</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>, <a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/d45/_matrix_8h.html#ab6ee03fae39f8fa5d8c6ad4bf8091082">matrixShow</a>(<a class="code" href="../../d5/d22/struct_matrix.html">pMatrix</a>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="ttc" id="a_matrix_8h_html_a20ccef885fe0688aec6968dcbc1bbc2b"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#a20ccef885fe0688aec6968dcbc1bbc2b">NameLenth</a></div><div class="ttdeci">#define NameLenth</div><div class="ttdoc">Définition de la longueur des noms utilisables dans les matrices.</div><div class="ttdef"><b>Definition:</b> Matrix.h:32</div></div>
+<div class="ttc" id="a_matrix_8h_html_a2220102ad188a6b29c5e873801f49909"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#a2220102ad188a6b29c5e873801f49909">pMatrix</a></div><div class="ttdeci">Matrix * pMatrix</div><div class="ttdoc">Définition d'un type de pointeur sur une matrice permettant d'augmenter la lisibilité du code.</div><div class="ttdef"><b>Definition:</b> Matrix.h:54</div></div>
+<div class="ttc" id="a_matrix_8h_html_a69b54d2eb9269d136862833a8f9b8c69"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#a69b54d2eb9269d136862833a8f9b8c69">matrixDel</a></div><div class="ttdeci">void matrixDel(pMatrix)</div><div class="ttdoc">Fonction permettant de supprimer proprement une matrice de la mémoire.</div><div class="ttdef"><b>Definition:</b> MatrixStruct.c:80</div></div>
+<div class="ttc" id="a_matrix_8h_html_a9532bd4a690c85475d95f0e8bed64f00"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#a9532bd4a690c85475d95f0e8bed64f00">matrixProduct</a></div><div class="ttdeci">pMatrix matrixProduct(pMatrix, pMatrix)</div><div class="ttdoc">Fonction permettant de réaliser le produit matriciel de deux matrices AB.</div><div class="ttdef"><b>Definition:</b> MatrixCalc.c:30</div></div>
+<div class="ttc" id="a_matrix_8h_html_a9570374e3dbc873595100dae1e584459"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#a9570374e3dbc873595100dae1e584459">Matrix</a></div><div class="ttdeci">struct Matrix Matrix</div><div class="ttdoc">Définition d'un structure permettant de stocker un matrice, ses dimenssions et son nom.</div></div>
+<div class="ttc" id="a_matrix_8h_html_aa2bf78b43b68a18258e7816205c11a92"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#aa2bf78b43b68a18258e7816205c11a92">matrixTranspose</a></div><div class="ttdeci">pMatrix matrixTranspose(pMatrix)</div><div class="ttdoc">Fonction permettant de réaliser la transposée d'une matrice A.</div><div class="ttdef"><b>Definition:</b> MatrixCalc.c:42</div></div>
+<div class="ttc" id="a_matrix_8h_html_aa6812575f6579530bfa1c888cd740228"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#aa6812575f6579530bfa1c888cd740228">BOOLEAN</a></div><div class="ttdeci">int BOOLEAN</div><div class="ttdoc">Définition d'un type BOOLEAN permettant d'utiliser True et False.</div><div class="ttdef"><b>Definition:</b> Matrix.h:21</div></div>
+<div class="ttc" id="a_matrix_8h_html_ab5abfef5840d9f707edb9b8ad05bfecb"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#ab5abfef5840d9f707edb9b8ad05bfecb">matrixScalar</a></div><div class="ttdeci">pMatrix matrixScalar(pMatrix, double)</div><div class="ttdoc">Fonction permettant de réaliser la multiplication d'une matrice A par un scalaire lambda.</div><div class="ttdef"><b>Definition:</b> MatrixCalc.c:67</div></div>
+<div class="ttc" id="a_matrix_8h_html_ab6ee03fae39f8fa5d8c6ad4bf8091082"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#ab6ee03fae39f8fa5d8c6ad4bf8091082">matrixShow</a></div><div class="ttdeci">void matrixShow(pMatrix)</div><div class="ttdoc">Fonction permettant d'afficher une matrice.</div><div class="ttdef"><b>Definition:</b> MatrixIHM.c:107</div></div>
+<div class="ttc" id="a_matrix_8h_html_abb780b4407a79e234f864854c4687cef"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#abb780b4407a79e234f864854c4687cef">matrixNew</a></div><div class="ttdeci">pMatrix matrixNew(int, int, char *)</div><div class="ttdoc">Fonction permettant de créer une nouvelle matrice en mémoire.</div><div class="ttdef"><b>Definition:</b> MatrixStruct.c:66</div></div>
+<div class="ttc" id="a_matrix_8h_html_ac6e8a1de4b6e29c3a22630e3c70d2dc2"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#ac6e8a1de4b6e29c3a22630e3c70d2dc2">matrixSum</a></div><div class="ttdeci">pMatrix matrixSum(pMatrix, pMatrix)</div><div class="ttdoc">Fonction permettant de réaliser la somme de deux matrices A + B.</div><div class="ttdef"><b>Definition:</b> MatrixCalc.c:55</div></div>
+<div class="ttc" id="a_matrix_8h_html_aef1a01ba80993bdc1d14c82e2f6329c1"><div class="ttname"><a href="../../d0/d45/_matrix_8h.html#aef1a01ba80993bdc1d14c82e2f6329c1">matrixIsEqual</a></div><div class="ttdeci">BOOLEAN matrixIsEqual(pMatrix, pMatrix)</div><div class="ttdoc">Fonction permettant de comparer deux matrices A et B.</div><div class="ttdef"><b>Definition:</b> MatrixCalc.c:83</div></div>
+<div class="ttc" id="astruct_matrix_html"><div class="ttname"><a href="../../d5/d22/struct_matrix.html">Matrix</a></div><div class="ttdoc">Définition d'un structure permettant de stocker un matrice, ses dimenssions et son nom.</div><div class="ttdef"><b>Definition:</b> Matrix.h:41</div></div>
+<div class="ttc" id="astruct_matrix_html_a573319684e32070e6d09cb6ea810a0d5"><div class="ttname"><a href="../../d5/d22/struct_matrix.html#a573319684e32070e6d09cb6ea810a0d5">Matrix::SizeY</a></div><div class="ttdeci">int SizeY</div><div class="ttdoc">Taille de la matrice dans la direction Y.</div><div class="ttdef"><b>Definition:</b> Matrix.h:45</div></div>
+<div class="ttc" id="astruct_matrix_html_a95940fa0c2498b0cf8ee4c55d75dda0e"><div class="ttname"><a href="../../d5/d22/struct_matrix.html#a95940fa0c2498b0cf8ee4c55d75dda0e">Matrix::tab</a></div><div class="ttdeci">double ** tab</div><div class="ttdoc">Tableau de double contenant les éléments de la matrice.</div><div class="ttdef"><b>Definition:</b> Matrix.h:43</div></div>
+<div class="ttc" id="astruct_matrix_html_a984128e9fb8b9ea72935a03dc63555d4"><div class="ttname"><a href="../../d5/d22/struct_matrix.html#a984128e9fb8b9ea72935a03dc63555d4">Matrix::isSym</a></div><div class="ttdeci">BOOLEAN isSym</div><div class="ttdoc">Valeur BOOLEAN permettant de savoir si la matrice est triangulaire ou non.</div><div class="ttdef"><b>Definition:</b> Matrix.h:46</div></div>
+<div class="ttc" id="astruct_matrix_html_abb1b37fd555f6fea3b6a3e23eaa6e77f"><div class="ttname"><a href="../../d5/d22/struct_matrix.html#abb1b37fd555f6fea3b6a3e23eaa6e77f">Matrix::name</a></div><div class="ttdeci">char name[NameLenth]</div><div class="ttdoc">Tableau de caractère pour contenir le nom de la matrice.</div><div class="ttdef"><b>Definition:</b> Matrix.h:42</div></div>
+<div class="ttc" id="astruct_matrix_html_ad5433f5795d61feb221500552a24efc0"><div class="ttname"><a href="../../d5/d22/struct_matrix.html#ad5433f5795d61feb221500552a24efc0">Matrix::SizeX</a></div><div class="ttdeci">int SizeX</div><div class="ttdoc">Taille de la matrice dans la direction X.</div><div class="ttdef"><b>Definition:</b> Matrix.h:44</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>
