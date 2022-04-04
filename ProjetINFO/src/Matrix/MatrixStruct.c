@@ -209,6 +209,65 @@ pMatrix matrixAlloc() {
         return result;
 }
 
+/**
+ * @brief Fonction permettant de libérer l'espace mémoire alloué à une matrice
+ * 
+ * @param mat pointeur sur un matrice
+ * @return renvoie NULL après la libération
+ */
+
+pMatrix matrixUnAlloc(pMatrix mat) {
+    free(mat);
+    return NULL;
+}
+
+/**
+ * @brief Procedure permettant de libérer la mémoire d'un tableau de matrice
+ * 
+ * @param mat Pointeur sur une matrice.
+ */
+
+void matrixUnInit(pMatrix mat) {
+    for (int i = 0; i<matrixGetSize(mat, 'X'); i++) {
+        free (mat->tab[i]);
+    }
+    free(mat->tab);
+}
+
+/**
+ * @brief Fonction permettant d'allouer l'espace mémoire d'un tableau de matrice
+ * 
+ * @param mat Pointeur sur la matrice.
+ */
+
+void matrixInit(pMatrix mat) {
+    if (matrixIsSym(mat)) {
+        if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
+            fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
+            exit(EXIT_FAILURE);
+        }
+            for (int i=0; i< matrixGetSize(mat, 'X'); i++)
+                if ((mat->tab[i] = (double*)malloc((matrixGetSize(mat, 'Y') - i)* sizeof(double))) == NULL) {
+                    fprintf(stderr, "matrixInit - Allocation Faillure - Dimension Y at %d", i);
+                    exit(EXIT_FAILURE);
+                };
+    }
+
+    else {
+        if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
+            fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
+            exit(EXIT_FAILURE);
+        }
+            for (int i=0; i< matrixGetSize(mat, 'X'); i++)
+                if ((mat->tab[i] = (double*)malloc(matrixGetSize(mat, 'Y') * sizeof(double))) == NULL) {
+                    fprintf(stderr, "matrixInit - Allocation Faillure - Dimension Y at %d", i);
+                    exit(EXIT_FAILURE);
+                };
+    }
+    mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*));
+    for (int i=0; i< matrixGetSize(mat, 'X'); i++)
+        mat->tab[i] = (double*)malloc(matrixGetSize(mat, 'Y') * sizeof(double));
+}
 
 /**
  * @brief Fonction permettant d'établir les valeurs de la matrice à 0
@@ -223,8 +282,6 @@ void matrixSetZero(pMatrix mat) {
         }
     }
 }
-
-
 
 /**
  * @brief Fonction permettant de créer une nouvelle matrice en mémoire.
@@ -243,7 +300,9 @@ pMatrix matrixNew(int X, int Y, char* Name) {
     matrixSetSize(result,'X',X);
     matrixSetSize(result,'Y',Y);
     matrixSetName(result,Name);
+    matrixInit(result);
     matrixSetZero(result);
+    return result;
 }
 
 /**
@@ -257,5 +316,7 @@ pMatrix matrixNew(int X, int Y, char* Name) {
  */
 
 void matrixDel(pMatrix mat) {
-
+    matrixUnInit(mat);
+    matrixUnAlloc(mat);
+    return NULL;
 }

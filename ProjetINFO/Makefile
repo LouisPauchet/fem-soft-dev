@@ -19,7 +19,7 @@ clean :
 	rm -rf $(DOCHTML)
 
 
-docs: $(DOCINDEX)
+docs:
 	rm -rf $(DOCHTML)
 	$(DOXYGEN) $(DOCCONF)
 	$(WEBNAV) $(DOCINDEX)
