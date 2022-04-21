@@ -24,12 +24,12 @@ typedef int BOOLEAN;
 
 #ifndef Matrix
 
-    #ifndef NameLenth
+    #ifndef NameLength
 /**
  * @brief Définition de la longueur des noms utilisables dans les matrices
  * 
  */
-    #define NameLenth 20
+    #define NameLength 20
     #endif
 
 
@@ -39,7 +39,7 @@ typedef int BOOLEAN;
  */
 
 typedef struct Matrix {
-    char name[NameLenth]; /**< @brief Tableau de caractère pour contenir le nom de la matrice*/
+    char name[NameLength]; /**< @brief Tableau de caractère pour contenir le nom de la matrice*/
     double **tab; /**< @brief Tableau de double contenant les éléments de la matrice*/
     int SizeX; /**< @brief Taille de la matrice dans la direction X*/
     int SizeY; /**< @brief Taille de la matrice dans la direction Y*/

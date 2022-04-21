@@ -20,7 +20,7 @@ typedef Matrix* pMatrix;
 /*################################*/
 
 
-pMatrix matrixNew(); //Création d'une matrice
+pMatrix matrixNew(void); //Création d'une matrice
 void matrixDel(pMatrix); //Suppression d'une matrice
 
 Matrix matrixProduct(pMatrix, pMatrix); //Fonction de calcul d'un produit matriciel

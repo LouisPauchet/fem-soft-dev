@@ -76,8 +76,8 @@ void matrixSetSize(pMatrix mat, char direction, int Size) {
  * @param Name Pointeur sur une chaine de caractère contenant le nom.
  */
 void matrixSetName(pMatrix mat, char* Name) {
-    if (strlen(Name) <= NameLenth)
-        stpncpy(mat->name, Name, NameLenth);
+    if (strlen(Name) <= NameLength)
+        stpncpy(mat->name, Name, NameLength);
     else {
         fprintf(stderr, "matrixSetName - Too long name, the extra characters have been removed");
     }

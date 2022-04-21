@@ -1,7 +1,8 @@
 //#include "../include/Matrix.h"
 #include "../include/MatrixList.h"
 
-int main () {
+int main (void) {
+
     struct MatrixList* Liste = NULL;
     Liste = listInit();
         
@@ -12,7 +13,18 @@ int main () {
     setMatrix(getLast(Liste), newMatrix());
     fillMatrix(getMatrix(getLast(Liste)));
 
-    dispMatrix(getMatrix(Liste));
+
+    //struct Matrix* mat1 = getMatrix(Liste);
+    
+    dispMatrix(getMatrix(getLast(Liste)));
     dispMatrix(getMatrix(getFirst(Liste)));
 
-}
+    //struct Matrix result = matrixProduct(getMatrix(getNodeByName(Liste,"toto")),getMatrix(getNodeByName(Liste,"titi")));
+
+    newNodeEnd(Liste);
+    struct Matrix result = matrixProduct(getMatrix(getNodeByName(Liste,"toto")),getMatrix(getNodeByName(Liste,"titi")));
+    setMatrix(getLast(Liste),&result);
+
+    dispMatrix(getMatrix(getNodeByName(Liste,"PM_toto-titi"))); 
+    
+    }
