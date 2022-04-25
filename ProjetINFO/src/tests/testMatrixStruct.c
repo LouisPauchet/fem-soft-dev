@@ -1,8 +1,10 @@
 #include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
+#include <CUnit/TestRun.h>
 #include <string.h>
 
 #ifndef Matrix
-#include "../include/Matrix.h"
+#include "../../include/Matrix.h"
 #endif
 
 static const double epsilon = 0.00000000001;
@@ -74,14 +76,15 @@ void test_matrixIsSym(void) {
 }
 
 void main(void) {
+    CU_ErrorCode CU_initialize_registry(void);
     
-   CU_pSuite MatrixStruct = CU_add_suite("Testing MatrixStruct", NULL, NULL);
+    CU_pSuite MatrixStruct = CU_add_suite("Testing MatrixStruct", NULL, NULL);
 
-   CU_ADD_TEST(MatrixStruct, test_matrixGetSize);
-   CU_ADD_TEST(MatrixStruct, test_matrixSetSize);
-   CU_ADD_TEST(MatrixStruct, test_matrixGetName);
-   CU_ADD_TEST(MatrixStruct, test_matrixSetName);
-   CU_ADD_TEST(MatrixStruct, test_matrixFieldExist);
-   CU_ADD_TEST(MatrixStruct, test_matrixIsSym);
+    CU_ADD_TEST(MatrixStruct, test_matrixGetSize);
+    CU_ADD_TEST(MatrixStruct, test_matrixSetSize);
+    CU_ADD_TEST(MatrixStruct, test_matrixGetName);
+    CU_ADD_TEST(MatrixStruct, test_matrixSetName);
+    CU_ADD_TEST(MatrixStruct, test_matrixFieldExist);
+    CU_ADD_TEST(MatrixStruct, test_matrixIsSym);
 
 }

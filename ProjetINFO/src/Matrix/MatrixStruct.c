@@ -10,7 +10,7 @@
  */
 
 #ifndef Matrix
-#include "../include/Matrix.h"
+#include "../../include/Matrix.h"
 
 #endif
 
@@ -35,11 +35,15 @@ int matrixGetSize(pMatrix mat, char direction) {
     switch (direction) {
         case 'X' :
             return mat->SizeX;
+            break;
         case 'Y' :
             return mat->SizeY;
+            break;
         default :
             fprintf(stderr, "matrixGetSize - Unknown dimension");
+            //printf("matrixGetSize - Unknown dimension");
             exit(EXIT_FAILURE);
+            break;
     }
 }
 
@@ -59,11 +63,14 @@ void matrixSetSize(pMatrix mat, char direction, int Size) {
     switch (direction) {
         case 'X' :
             mat->SizeX = Size;
+            break;
         case 'Y' :
             mat->SizeY = Size;
+            break;
         default :
             fprintf(stderr, "matrixSetSize - Unknown dimension");
             exit(EXIT_FAILURE);
+            break;
     }
 }
 
@@ -92,6 +99,18 @@ void matrixSetName(pMatrix mat, char* Name) {
 
 char* matrixGetName(pMatrix mat) {
     return mat->name;
+}
+
+/**
+ * @brief Fonction permettant d'afficher le nom de la matrice à la suite de la ligne en cours
+ * 
+ * Fonction créer en raison de problèmes de segmentation sur le fait de passer en paramètre de printf le retour de la fonction matrixGetName.
+ * 
+ * @param mat de type pMatrix, c'est à dire pointeur sur une structure de matrice.
+ */
+
+void matrixShowName(pMatrix mat) {
+    printf("%s",mat->name);
 }
 
 /**
@@ -179,14 +198,15 @@ void matrixSetValue(pMatrix mat, int dX, int dY, double value) {
 double matrixGetValue(pMatrix mat, int dX, int dY) {
     if (matrixFieldExist(mat, dX, dY)) {
         if (matrixIsSym(mat) && (dX < dY))
-            return mat->tab[dY][dX];
+            return (double) (mat->tab[dY][dX]);
         else
-            return mat->tab[dX][dY];
+            return (double) (mat->tab[dX][dY]);
     }
     else {
         fprintf(stderr, "matrixGetValue - Out of range \n");
         exit(EXIT_FAILURE);
     }
+    //return mat->tab[dX][dY];
 }
 
 /**
@@ -241,6 +261,7 @@ void matrixUnInit(pMatrix mat) {
  */
 
 void matrixInit(pMatrix mat) {
+    //printf("OKOK");
     if (matrixIsSym(mat)) {
         if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
             fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
@@ -276,8 +297,8 @@ void matrixInit(pMatrix mat) {
  */
 
 void matrixSetZero(pMatrix mat) {
-    for (int i = 0; i < matrixGetSize(mat,"X"); i++) {
-        for (int j = 0; j < matrixGetSize(mat,"Y"); j++) {
+    for (int i = 0; i < matrixGetSize(mat,'X'); i++) {
+        for (int j = 0; j < matrixGetSize(mat,'Y'); j++) {
             matrixSetValue(mat, i, j, (double) 0);
         }
     }
@@ -296,6 +317,7 @@ void matrixSetZero(pMatrix mat) {
  * @return On retourne une valeur BOOLEAN True = 1 or False = 0.
  */
 pMatrix matrixNew(int X, int Y, char* Name) {
+    //printf("%d %d %s", X, Y, Name);
     pMatrix result = matrixAlloc();
     matrixSetSize(result,'X',X);
     matrixSetSize(result,'Y',Y);

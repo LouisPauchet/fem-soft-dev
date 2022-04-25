@@ -1,31 +1,26 @@
 CC = gcc
 EXEC = EFSoft
-SRC = 	$(wildcard /src/*.c) \
-		$(wildcard src/Matrix/*.c)\
-		$(wildcard src/List/*.c) \
-		$(wildcard src/EF/*.c)
-OBJ = $(SRV:.c:.o)
-
 DOXYGEN = doxygen
 DOCHTML = ./doc/html
 DOCCONF = ./doc/Doxyfile
 DOCINDEX = $(DOCHTML)/index.html
 WEBNAV = firefox
 
-SRC_MATRIX = ./src/Matrix/wildcard *.c
-SRC_LIST = ./src/List/wildcard *.c
-SRC_TEST = ./src/test/wildcard *.c
-
-OBJ_MATRIX = $(SRC_MATRIX:.c=.o)
-OBJ_LIST = $(SRC_LIST:.c=.o)
-OBJ_TEST = $(SRC_TEST:.c=.o)
+MATRIXSRC = ./src/Matrix/$(wildcard *.c)
+MATRIXOBJ = $(MATRIXSRC:.c=.o)
+MATRIXLIB = ./lib/matrix.a
 
 all :
 
-matrix :
+lib : matrix.a
 
 
-liste :
+matrix.o :
+	$(CC) -c $(MATRIXSRC) -o $(MATRIXOBJ)
+
+matrix.a : $(MATRIXOBJ)
+	ar -cr $(MATRIXLIB) $(MATRIXOBJ)
+	
 
 clean :
 	rm -rf *.o

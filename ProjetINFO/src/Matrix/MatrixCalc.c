@@ -11,7 +11,7 @@
 
 
 #ifndef Matrix
-#include "../include/Matrix.h"
+#include "../../include/Matrix.h"
 
 #endif
 

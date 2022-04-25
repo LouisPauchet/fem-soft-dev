@@ -10,7 +10,7 @@
  */
 
 #ifndef Matrix
-#include "Matrix.h"
+#include "../../include/Matrix.h"
 #endif
 
 #ifndef VA
@@ -29,7 +29,7 @@ typedef int choice;
 #endif
 
 #ifndef RowLenth
-#define RowLenth 20
+#define RowLenth 30
 #endif
 
 
@@ -42,8 +42,8 @@ typedef int choice;
 */
 
 void PrintRow(int n, char c) {
-        for (int i; i<n; i++){
-            printf("%s",c);
+        for (int i=0; i<n; i++){
+            printf("%c", c);
         }
         printf("\n");
     }
@@ -109,10 +109,11 @@ void matrixShow(pMatrix pmat) {
 
 /* On créer la première ligne en affichant les numéros de colonnes */
     printf("Affichage matrice : ");
-    puts(getName(pmat));
+    matrixShowName(pmat);
+    printf("\n");
     printf("     "); //5 espaces
 
-    for (int j=0;j<getSizeY(pmat);j++) {
+    for (int j=0;j<matrixGetSize(pmat, 'Y');j++) {
         printf("    (%2d)   ", j);
     }
 
@@ -120,12 +121,13 @@ void matrixShow(pMatrix pmat) {
 
     printf(" \n");
 
-        for (int i=0;i<getSizeX(pmat);i++){
+        for (int i=0;i<matrixGetSize(pmat, 'X');i++){
             printf("(%2d) ", i);
-            for (int j=0;j<getSizeY(pmat);j++){
-                printf("|%1.4e",getValue(pmat,i,j));
+            for (int j=0;j<matrixGetSize(pmat, 'Y');j++){
+                double a = matrixGetValue(pmat,i,j);
+                printf("|%1.4e",matrixGetValue(pmat,i,j));
             }
             printf("|\n");
         }
-    PrintRow(RowLenth, "-");
+    PrintRow(RowLenth, '-');
 }
