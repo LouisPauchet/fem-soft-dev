@@ -32,7 +32,6 @@ typedef int BOOLEAN;
     #define NameLength 20
     #endif
 
-
 /**
  * @brief Définition d'un structure permettant de stocker un matrice, ses dimenssions et son nom.
  * 
@@ -46,6 +45,8 @@ typedef struct Matrix {
     BOOLEAN isSym; /**< @brief Valeur BOOLEAN permettant de savoir si la matrice est triangulaire ou non
     * Par défaut, la matrice est considéré comme plein, c'est-à-dire non triangulaire.
     */
+    BOOLEAN isInit; /** < @brief Valeur booléan permettant de vérifier si la matrice est initiatliser ou pas. Voir matrixInit */
+    BOOLEAN isAlloc; /** < @brief Valeur booléan permettant de savoir si la matrice est alloué ou pas. Voir matrixAlloc */
 } Matrix;
 
 /**
@@ -63,9 +64,9 @@ pMatrix matrixProduct(pMatrix, pMatrix, char*);
 pMatrix matrixTranspose(pMatrix);
 pMatrix matrixSum(pMatrix, pMatrix);
 pMatrix matrixScalar(pMatrix, double);
-
-BOOLEAN matrixIsEqual(pMatrix, pMatrix);
-
+pMatrix matrixReplace(pMatrix, pMatrix);
 void matrixShow(pMatrix);
+void matrixWrite (pMatrix, char* );
+pMatrix matrixLoad (pMatrix, char*);
 
 

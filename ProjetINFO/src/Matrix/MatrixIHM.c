@@ -9,8 +9,10 @@
  * 
  */
 
-#ifndef Matrix
+#include "../../include/privateMatrix.h"
+#ifndef DMatrix
 #include "../../include/Matrix.h"
+#define DMatrix
 #endif
 
 #ifndef VA
@@ -105,7 +107,7 @@ va_list* matrixUserCreate() {
  */
 
 void matrixShow(pMatrix pmat) {
-    PrintRow(RowLenth, "-");
+    PrintRow(RowLenth, '-');
 
 /* On créer la première ligne en affichant les numéros de colonnes */
     printf("Affichage matrice : ");
@@ -125,9 +127,70 @@ void matrixShow(pMatrix pmat) {
             printf("(%2d) ", i);
             for (int j=0;j<matrixGetSize(pmat, 'Y');j++){
                 double a = matrixGetValue(pmat,i,j);
-                printf("|%1.4e",matrixGetValue(pmat,i,j));
+                printf("|%1.4e",(double) matrixGetValue(pmat,i,j));
             }
             printf("|\n");
         }
     PrintRow(RowLenth, '-');
+}
+
+#define MaxLength 50
+/*
+pMatrix matrixLoad (pMatrix mat, char* filePath) {
+    matrixAlloc(mat);
+    char fileName[60] = "\0";
+    strcpy(fileName, filePath);
+    FILE *doc = fopen(fileName, "r");
+    
+    char *buf = (char*) malloc( MaxLength );
+
+    while (strcmp(buf, "name;") != 5) {
+        fgets( buf, MaxLength, doc );
+    }
+
+    fscanf(doc,"name;%s\n", mat->name);
+    fscanf(doc,"sizeX;%s\n", mat->SizeX );
+    fscanf(doc, "sizeX;%s\n", mat->SizeY );
+    
+    matrixInit(mat);
+
+    fclose(doc);
+
+    return mat;
+}
+*/
+
+/**
+ * @brief Fonction permettant d'écrire une matrice dans un fichier texte au format CSV avec ";" comme séparateur.
+ * 
+ * Le fichier portera l'extension ".cMat" et sera nommé du nom de la matrice préfixé de "mat_"
+ * 
+ * @param mat Un pointeur sur la matrice à écrire.
+ * @param filePath Le répertoire où écrire la matrice.
+ */
+void matrixWrite (pMatrix mat, char* filePath) {
+    char fileName[60] = "\0";
+    strcpy(fileName, filePath);
+    strcat(fileName, "mat_");
+    strcat(fileName, mat->name);
+    strcat(fileName, ".cMat");
+    FILE *doc = fopen(fileName,"a");
+
+    fprintf(doc, "< MatrixBegin >\n");
+    char _name[NameLength] = "\0";
+    strcpy(_name, mat->name);
+    fprintf(doc, "name; %s\n", _name);
+    fprintf(doc, "sizeX; %d\n", matrixGetSize(mat, 'X'));
+    fprintf(doc, "sizeY; %d\n", matrixGetSize(mat, 'Y'));
+    
+    for (int i = 0; i < matrixGetSize(mat, 'X'); i++) {
+        for (int j = 0; j < matrixGetSize(mat, 'Y'); j++) {
+            fprintf(doc,"%f;", matrixGetValue(mat, i, j));
+        }
+        fprintf(doc,"\n");
+    }
+
+    fprintf(doc, "< MatrixEnd >\n");
+
+    fclose(doc);
 }

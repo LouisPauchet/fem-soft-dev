@@ -221,11 +221,13 @@ pMatrix matrixAlloc() {
     pMatrix result = NULL;
     if ((result = malloc(sizeof(Matrix))) == NULL) {
         fprintf(stderr, "matrixAlloc - Allocation Faillure");
+        result->isAlloc = False;
         exit(EXIT_FAILURE);
     }
 
     else
         result->isSym = False;
+        result->isAlloc = True;
         return result;
 }
 
@@ -237,8 +239,11 @@ pMatrix matrixAlloc() {
  */
 
 pMatrix matrixUnAlloc(pMatrix mat) {
-    free(mat);
-    return NULL;
+    if (mat->isAlloc) {
+        free(mat);
+        return NULL;
+    }
+
 }
 
 /**
@@ -248,10 +253,12 @@ pMatrix matrixUnAlloc(pMatrix mat) {
  */
 
 void matrixUnInit(pMatrix mat) {
-    for (int i = 0; i<matrixGetSize(mat, 'X'); i++) {
-        free (mat->tab[i]);
+    if (mat->isInit) {
+        for (int i = 0; i<matrixGetSize(mat, 'X'); i++) {
+            free (mat->tab[i]);
+        }
+        free(mat->tab);
     }
-    free(mat->tab);
 }
 
 /**
@@ -262,14 +269,18 @@ void matrixUnInit(pMatrix mat) {
 
 void matrixInit(pMatrix mat) {
     //printf("OKOK");
+    mat->isInit = True;
     if (matrixIsSym(mat)) {
         if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
             fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
+            mat->isInit = False;
             exit(EXIT_FAILURE);
+            
         }
             for (int i=0; i< matrixGetSize(mat, 'X'); i++)
                 if ((mat->tab[i] = (double*)malloc((matrixGetSize(mat, 'Y') - i)* sizeof(double))) == NULL) {
                     fprintf(stderr, "matrixInit - Allocation Faillure - Dimension Y at %d", i);
+                    mat->isInit = False;
                     exit(EXIT_FAILURE);
                 };
     }
@@ -278,11 +289,13 @@ void matrixInit(pMatrix mat) {
         if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
             fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
             exit(EXIT_FAILURE);
+            mat->isInit = False;
         }
             for (int i=0; i< matrixGetSize(mat, 'X'); i++)
                 if ((mat->tab[i] = (double*)malloc(matrixGetSize(mat, 'Y') * sizeof(double))) == NULL) {
                     fprintf(stderr, "matrixInit - Allocation Faillure - Dimension Y at %d", i);
                     exit(EXIT_FAILURE);
+                    mat->isInit = False;
                 };
     }
     mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*));
@@ -338,7 +351,35 @@ pMatrix matrixNew(int X, int Y, char* Name) {
  */
 
 void matrixDel(pMatrix mat) {
-    matrixUnInit(mat);
-    matrixUnAlloc(mat);
+    if (mat == NULL) {
+        matrixUnInit(mat);
+        matrixUnAlloc(mat);
+    }
     return NULL;
+}
+
+/**
+ * @brief Fonction permettent de remplacer une matrice par une autre.
+ * 
+ * @param old Pointeur sur la matrice à remplacer.
+ * @param new Pointeur sur la matrice de remplacement
+ * @return pMatrix Renvoie un pointeur sur la matrice modifié.
+ */
+
+pMatrix matrixReplace(pMatrix old, pMatrix new) {
+    matrixUnInit(old);
+    matrixSetSize(old,'X', matrixGetSize(new,'X'));
+    matrixSetSize(old,'Y', matrixGetSize(new,'Y'));
+    matrixInit(old);
+    matrixSetName(old, "\0\0\0\0\0");
+    strcpy(matrixGetName(old), matrixGetName(new));
+
+    for (int i = 0; i<matrixGetSize(old,'X'); i++) {
+        for (int j = 0; j<matrixGetSize(old,'Y'); j++) {
+            matrixSetValue(old, i, j, matrixGetValue(new,i,j));
+        }
+    }
+    
+    matrixDel(new);
+    return old;
 }
