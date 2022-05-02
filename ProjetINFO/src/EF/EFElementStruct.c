@@ -51,6 +51,7 @@ pEFElement EFElementSetId(pEFElement Element, int id) {
  * 
  * @param Element Pointeur sur l'élément voulue
  * @param nodePosition Numéro d'attache du noeud.
+ * Saisir 1 pour obtenir le premier noeud et 2 pour obtenir le deuxième. Les autres valeurs entraneront une erreur.
  * @return int Renvoie le numéro du noeud voulue. En cas d'érreur sur nodePosition, renvoie NULL.
  */
 
@@ -58,11 +59,11 @@ int EFElementGetNode (pEFElement Element, int nodePosition) {
     switch (nodePosition)
     {
     case 1:
-        return (Element->node[1]);
+        return (Element->node[0]);
         break;
 
     case 2:
-        return (Element->node[2]);
+        return (Element->node[1]);
         break;
     
     default:

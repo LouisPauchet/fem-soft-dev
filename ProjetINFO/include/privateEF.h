@@ -1,7 +1,7 @@
 
 #ifndef DEf
 #include "./EF.h"
-#define dEF
+#define DEf
 #endif
 
 

@@ -20,10 +20,18 @@
 
 #include <string.h>
 
+/**
+ * @brief Fonction permettant d'obtenir une matrice dans une liste chainée à partir de son nom
+ * 
+ * @param workList Liste de travail
+ * @param Name Nom de la matrice à rechercher.
+ * @return pMatrix 
+ */
+
 pMatrix MatrixListSearch ( list workList, char* Name) {
 
     if ( strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
-        return workList;
+        return ((pMatrix) listGetElement(workList));
     }
 
     else {

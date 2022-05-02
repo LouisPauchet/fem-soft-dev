@@ -1,4 +1,7 @@
-
+#ifndef DList
+#include "./List.h"
+#define DList
+#endif
 
 #ifndef True
 
@@ -68,5 +71,6 @@ pMatrix matrixReplace(pMatrix, pMatrix);
 void matrixShow(pMatrix);
 void matrixWrite (pMatrix, char* );
 pMatrix matrixLoad (pMatrix, char*);
+pMatrix MatrixListSearch ( list, char*);
 
 

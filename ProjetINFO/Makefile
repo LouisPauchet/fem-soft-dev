@@ -1,36 +1,108 @@
 CC = gcc
+AR = ar
+CFFLAGS = -g -I$(INCLUDEDIR)
+LDFLAGS = -lm
+
 EXEC = EFSoft
-DOXYGEN = doxygen
-DOCHTML = ./doc/html
-DOCCONF = ./doc/Doxyfile
-DOCINDEX = $(DOCHTML)/index.html
+DOCWIZARD = doxygen
+DOCCONF = ./config/Doxyfile
+DOCINDEX = $(DOCDIR)/html/index.html
 WEBNAV = firefox
 
-MATRIXSRC = ./src/Matrix/$(wildcard *.c)
-MATRIXOBJ = $(MATRIXSRC:.c=.o)
-MATRIXLIB = ./lib/matrix.a
+DOCDIR = ./doc
+SRCDIR = ./src
+LIBDIR = ./lib
+BINDIR = ./bin
+INCLUDEDIR = ./include
 
-all :
+MATRIXSUBDIR = Matrix
+EFSUBDIR = EF
+LISTSUBDIR = List
 
-lib : matrix.a
 
 
-matrix.o :
-	$(CC) -c $(MATRIXSRC) -o $(MATRIXOBJ)
 
-matrix.a : $(MATRIXOBJ)
-	ar -cr $(MATRIXLIB) $(MATRIXOBJ)
+
+
+
+#Lancement du fichier de test manuel pour l'unité matrice
+
+listTest : $(BINDIR)/$(LISTSUBDIR)/test
+	$(BINDIR)/$(LISTSUBDIR)/test
 	
+#Création du fichier de test manuel pour les matrices
+
+$(BINDIR)/$(LISTSUBDIR)/test : $(SRCDIR)/$(LISTSUBDIR)/ListStruct.o $(SRCDIR)/$(LISTSUBDIR)/ListTest.o
+	mkdir -p $(BINDIR)/$(LISTSUBDIR)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+
+
+# Création de l'unité List
+listUnit : $(SRCDIR)/$(LISTSUBDIR)/ListStruct.o
+	$(AR) -cr $(LIBDIR)/matrixUnit.a $^
+
+# Compilation de fichiers sources de l'unité list
+
+$(SRCDIR)/$(LISTSUBDIR)/%.o : $(SRCDIR)/$(LISTSUBDIR)/%.c
+	$(CC) -o $@ -c $< $(CFFLAGS)
+
+# Création de l'unité Matrice
+matrixUnit : $(SRCDIR)/$(MATRIXSUBDIR)/MatrixStruct.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixIHM.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixCalc.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixList.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixTest.o
+	$(AR) -cr $(LIBDIR)/matrixUnit.a $^
+
+#Création de l'executable général
+
+$(BINDIR)/$(EXEC) : $(SRCDIR)/$(MATRIXSUBDIR)/%.o $(SRCDIR)/$(LISTSUBDIR)/%.o $(SRCDIR)/$(EFSUBDIR)/%.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+#Lancement du fichier de test manuel pour l'unité matrice
+
+matrixTest : $(BINDIR)/$(MATRIXSUBDIR)/test
+	$(BINDIR)/$(MATRIXSUBDIR)/test
+	
+#Création du fichier de test manuel pour les matrices
+
+$(BINDIR)/$(MATRIXSUBDIR)/test : $(SRCDIR)/$(MATRIXSUBDIR)/MatrixStruct.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixIHM.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixCalc.o $(SRCDIR)/$(MATRIXSUBDIR)/MatrixTest.o
+	mkdir -p $(BINDIR)/$(MATRIXSUBDIR)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+# Compilation de fichiers sources de l'unité matrice
+
+$(SRCDIR)/$(MATRIXSUBDIR)/%.o : $(SRCDIR)/$(MATRIXSUBDIR)/%.c
+	$(CC) -o $@ -c $< $(CFFLAGS)
+
+#Suppression des fichiers objets, des unités, de la documentation et des executables.
 
 clean :
-	rm -rf *.o
-	rm -rf $(DOCHTML)
+	rm -rf $(DOCDIR)/*
+	rm -rf $(BINDIR)/*
+	rm -rf $(LIBDIR)/*
+	rm -rf $(SRCDIR)/*.o
+	rm -rf $(SRCDIR)/$(MATRIXSUBDIR)/*.o
+	rm -rf $(SRCDIR)/$(EFSUBDIR)/*.o
+	rm -rf $(SRCDIR)/$(LISTSUBDIR)/*.o
 
+#Suppression des repertoires inutiles
+
+cleanProject : clean
+	rm -rf $(DOCDIR)
+	rm -rf $(BINDIR)
+	rm -rf $(LIBDIR)
+
+#Création des répertoires
+
+directory :
+	mkdir -p $(DOCDIR)
+	mkdir -p $(BINDIR)
+	mkdir -p $(LIBDIR)
+
+#Création de la documentation
 
 docs :
 	echo "Suppression de l'ancienne documentation"
-	@ rm -rf $(DOCHTML)
+	@ rm -rf $(DOCDIR)
 	echo "Génération de la documentation"
-	@ $(DOXYGEN) $(DOCCONF)
+	@ $(DOCWIZARD) $(DOCCONF)
 	echo "Ouverture de la documentation"
 	@ $(WEBNAV) $(DOCINDEX) &
