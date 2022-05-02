@@ -116,7 +116,7 @@ void matrixShow(pMatrix pmat) {
     printf("     "); //5 espaces
 
     for (int j=0;j<matrixGetSize(pmat, 'Y');j++) {
-        printf("    (%2d)   ", j);
+        printf("     (%2d)    ", j);
     }
 
 /*On affiche le tableau avec le numéro de ligne*/
@@ -127,7 +127,14 @@ void matrixShow(pMatrix pmat) {
             printf("(%2d) ", i);
             for (int j=0;j<matrixGetSize(pmat, 'Y');j++){
                 double a = matrixGetValue(pmat,i,j);
-                printf("|%1.4e",(double) matrixGetValue(pmat,i,j));
+                if (matrixGetValue(pmat,i,j) < 0) {
+                    printf("|%1.4e ",(double) matrixGetValue(pmat,i,j));
+                }
+
+                else {
+                    printf("| %1.4e ",(double) matrixGetValue(pmat,i,j));
+                }
+                
             }
             printf("|\n");
         }

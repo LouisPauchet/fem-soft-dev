@@ -30,23 +30,54 @@ typedef int BOOLEAN;
 
 #endif
 
-/**
- * @brief Structure d'un maillon de la liste doublement chainée générique.
- * 
- */
 
-typedef struct {
-    list previous; /**< @brief Champ contenant la liste précédante*/
-    void* element; /**< @brief Pointeur générique sur l'élément stoqué dans la liste.*/
-    list next; /**< @brief Champ contenant la liste suivante*/
-} listNode;
 
 /**
  * @brief Type de pointeur sur un maillon de liste (listNode)
  * 
  */
 
+typedef struct listNode listNode;
 typedef listNode* list;
+
+
+/**
+ * @brief Structure d'un maillon de la liste doublement chainée générique.
+ * 
+ */
+
+
+struct listNode {
+    listNode* previous; /**< @brief Champ contenant la liste précédante*/
+    void* element; /**< @brief Pointeur générique sur l'élément stoqué dans la liste.*/
+    listNode* next; /**< @brief Champ contenant la liste suivante*/
+} ;
+
+//typedef listNode* list;
+
+#ifndef NameLength
+/**
+ * @brief Définition de la longueur des noms utilisables dans les matrices
+ * 
+ */
+    #define NameLength 20
+#endif
+
+
+list listNew();
+list listAddBegin(list, void*);
+list listIsEmpty(list);
+list listGetNext(list);
+list listGetPrec(list);
+list listSetNext(list, list);
+list listSetPrec(list, list);
+void* listGetElement(list);
+list listSetElement(list, void*);
+
+list listDelNode(list);
+list listDelList(list);
+
+
 
 
 

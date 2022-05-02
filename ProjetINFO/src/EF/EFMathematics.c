@@ -9,7 +9,12 @@
  * 
  */
 
-#include "../../include/EF.h"
+#include "../../include/privateEF.h"
+
+#ifndef DEf
+#include "../../include/privateEF.h"
+#define DEf
+#endif
 
 /**
  * @brief Fonction permettant de mettre en équations matriciels un système mécanique

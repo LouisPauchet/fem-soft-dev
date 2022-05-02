@@ -8,7 +8,12 @@
  * @copyright Copyright (c) 2022
  * 
  */
-#include "../../include/EF.h"
+#include "../../include/privateEF.h"
+
+#ifndef DEf
+#include "../../include/privateEF.h"
+#define DEf
+#endif
 
 /**
  * @brief Fonction permettant d'afficher un système mécanique.

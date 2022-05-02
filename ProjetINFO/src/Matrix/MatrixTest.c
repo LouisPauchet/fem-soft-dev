@@ -23,7 +23,7 @@ void main(void)
 
     pMatrix matAA = matrixNew(2,2,"matAA");
     matrixSetValue(matAA,0,0,5);
-    matrixSetValue(matAA,0,1,6);
+    matrixSetValue(matAA,0,1,-6);
     matrixSetValue(matAA,1,0,12);
     matrixSetValue(matAA,1,1,8);
         
