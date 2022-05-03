@@ -20,6 +20,8 @@
 #include <stdio.h>
 #include <string.h>
 
+BOOLEAN WorkWithTriangular = False;
+
 /**
  * @brief Fonction permettant d'obtenir la taille d'une matrice dans la direction X ou Y.
  * 
@@ -196,6 +198,21 @@ void matrixSetValue(pMatrix mat, int dX, int dY, double value) {
  */
 
 double matrixGetValue(pMatrix mat, int dX, int dY) {
+    
+    /*if (matrixIsSym(mat)) {
+        if (dX < dY) {
+
+            return (double) (mat->tab[dY][dX]);
+        }
+
+        else {
+            return (double) (mat->tab[dX][dY]);
+        }
+                    #ifndef DEBUG
+            printf("GetValue - MatrixSymetrique");
+            #endif
+    }*/
+    
     if (matrixFieldExist(mat, dX, dY)) {
         if (matrixIsSym(mat) && (dX < dY))
             return (double) (mat->tab[dY][dX]);
@@ -323,6 +340,8 @@ void matrixSetZero(pMatrix mat) {
  * La fonction matrixNew réaliser la création d'une matrice, son allocation mémoire, ainsi que sa mise à zéro.
  * Elle renvoie un pointeur sur la matrice.
  * 
+ * La définition de la variable global WorkWithTriangular permettera de travailler avec des matrices creuses.
+ * 
  * @param X Entier signé définissant la dimension de la nouvelle matrice dans la direction X
  * @param Y Entier signé définissant la dimension de la nouvelle matrice dans la direction X
  * @param Name Pointeur sur un tableau de caractère contenant le nom de la nouvelle matrice.
@@ -335,6 +354,11 @@ pMatrix matrixNew(int X, int Y, char* Name) {
     matrixSetSize(result,'X',X);
     matrixSetSize(result,'Y',Y);
     matrixSetName(result,Name);
+    printf("A%d", result->isSym);
+    if (WorkWithTriangular) matrixSetSym(result); //On utilise la variable globale WorkWithTriangular pour choisir si les matrices sont triangulaires ou pas.
+    //result->isSym = True;
+    
+    printf("A%d", result->isSym);
     matrixInit(result);
     matrixSetZero(result);
     return result;

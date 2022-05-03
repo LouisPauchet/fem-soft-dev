@@ -7,6 +7,8 @@
  * 
  * @copyright Copyright (c) 2022
  * 
+ * @warning Cette partie de la bibliothèque ne sera dévelopé que pour le TD5.
+ * 
  */
 
 

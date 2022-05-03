@@ -121,20 +121,70 @@ list listSetPrec(list node, list prec) {
  */
 
 list listAddBegin(list WorkList, void* elementToAdd) {
-    if (listIsEmpty(listGetPrec(WorkList))) {
-        list newnode = listAlloc();
-        listSetPrec(newnode, listEmpty());
-        listSetNext(newnode, WorkList);
-        listSetElement(newnode, elementToAdd);
 
-        listSetPrec(WorkList, newnode);
+    if (listIsEmpty(WorkList)) {
+        WorkList = listAlloc();
+        listSetPrec(WorkList, listEmpty());
+        listSetNext(WorkList, listEmpty());
+        listSetElement(WorkList, elementToAdd);
 
-        return newnode;
+        return WorkList;
 
     }
 
     else {
-        listAddBegin(listGetPrec(WorkList), elementToAdd);
+
+        if (listIsEmpty(listGetPrec(WorkList))) {
+            list newnode = listAlloc();
+            listSetPrec(newnode, listEmpty());
+            listSetNext(newnode, WorkList);
+            listSetElement(newnode, elementToAdd);
+
+            listSetPrec(WorkList, newnode);
+
+            return newnode;
+
+        }
+
+        else {
+            listAddBegin(listGetPrec(WorkList), elementToAdd);
+        }
+        }
+
+
+}
+
+
+list listAddEnd(list WorkList, void* elementToAdd) {
+
+    if (listIsEmpty(WorkList)) {
+        WorkList = listAlloc();
+        listSetPrec(WorkList, listEmpty());
+        listSetNext(WorkList, listEmpty());
+        listSetElement(WorkList, elementToAdd);
+
+        return WorkList;
+
+    }
+
+    else {
+
+        if (listIsEmpty(listGetNext(WorkList))) {
+            list newnode = listAlloc();
+            listSetPrec(newnode, WorkList);
+            listSetNext(newnode, listEmpty());
+            listSetElement(newnode, elementToAdd);
+
+            listSetNext(WorkList, newnode);
+
+            return newnode;
+
+        }
+    
+
+        else {
+            listAddEnd(listGetNext(WorkList), elementToAdd);
+        }
     }
 
 
@@ -218,11 +268,13 @@ list listGetNodeBy(list workList, union IdType (*pf)(void*), char* Id, char Meth
  * @brief Fonction permettant de supprimer un maillon de la liste.
  * 
  * @param node Maillon à supprimer
+ * @param freeElem Pointeur sur la fonction permettant de réaliser la désalocation de l'élément stocké.
  * @return list Renvoie un pointeur sur un maillon de la liste.
  */
 
-list listDelNode(list node) {
+list listDelNode(list node, FreeElement freeElem) {
     if (!(listIsEmpty(node))) {
+        freeElem(listGetElement(node));
         listSetNext(listGetPrec(node), listGetNext(node));
         listSetPrec(listGetNext(node), listGetPrec(node));
         free(node);
@@ -235,23 +287,83 @@ list listDelNode(list node) {
  * @brief Fonction permettant de supprimer la list 
  * 
  * @param node List à supprimer 
+ * @param freeElem Pointeur sur la fonction permettant de désalloue les éléments de la la liste.
  * @return list Renvoie un pointeur sur la list.
  */
 
-list listDelList(list node) {
+list listDelList(list node, FreeElement freeElem) {
 
     while ( ! listIsEmpty(listGetPrec(node)))
     {
-        listDelNode(listGetPrec(node));
+        listDelNode(listGetPrec(node), freeElem);
     }
     
     while ( ! listIsEmpty(listGetNext(node)))
     {
-        listDelNode(listGetNext(node));
+        listDelNode(listGetNext(node), freeElem);
     }
 
-    listDelNode(node);
+    listDelNode(node, freeElem);
     node = listEmpty();
     
 
+}
+
+
+int listGetSizeRight(list node) {
+    if (listIsEmpty(node)) return 0;
+
+    else {
+        return (1 + listGetSizeRight(listGetNext(node)));
+    }
+}
+
+int listGetSizeLeft(list node) {
+    if (listIsEmpty(node)) return 0;
+
+    else {
+        return (1 + listGetSizeLeft(listGetPrec(node)));
+    }
+}
+
+/**
+ * @brief Fonction permettant de connaitre le nombre d'élément stocké dans une liste chainé.
+ * 
+ * @param node Pointeur sur un maillon de la liste dont on souhaite connaitre le nombre de maillon.
+ * @return int Renvoie la taille de la liste. Pour une liste vide renvoie 0.
+ */
+
+int listGetSize(list node) {
+/*    int size = 0;
+    list nodeWork = node;
+
+    while (! listIsEmpty(nodeWork))
+    {
+        size += 1;
+        nodeWork = listGetNext(nodeWork);
+    }
+
+    nodeWork = listGetPrec(node);
+
+    while (! listIsEmpty(nodeWork))
+    {
+        size += 1;
+        nodeWork = listGetPrec(nodeWork);
+    } */
+    if (listIsEmpty(node)) return 0;
+
+    else return (listGetSizeLeft(node) + listGetSizeRight(node) - 1); // On compte deux fois le noeuds d'appel.
+    
+    
+}
+
+
+list listGoFirst(list node) {
+    while (!listIsEmpty(listGetPrec(node)))
+    {
+        node = listGetPrec(node);
+    }
+
+    return node;
+    
 }

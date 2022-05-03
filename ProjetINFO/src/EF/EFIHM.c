@@ -21,6 +21,8 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void PrintData(double data) {
     if (data  <  0)
@@ -34,9 +36,22 @@ void PrintData(double data) {
         }
 }
 
+
+void PrintDataElem(double data) {
+    if (data  <  0)
+        {
+            printf("(%1.3e)", data);
+        }
+
+    else
+        {
+            printf("(%1.4e)", data);
+        }
+}
+
 void printLine(int n, char a) {
     for (int i = 0; i<n; i++) {
-        printf("%s", a);
+        printf("%c", a);
     }
     printf ("\n");
 }
@@ -53,25 +68,28 @@ void EFDispFirstLigne(int NbNode) {
 }
 
 void EFDispNodeData( list ListOfNode) {
-    list BacListOfNode = ListOfNode;
+    list BacListOfNode = listGoFirst(ListOfNode);
 
     printf("Force        |"); //14 caractères
 
-    do
+    ListOfNode = BacListOfNode;
+
+    while ( ! listIsEmpty(ListOfNode)  )
     {
-        PrintData(EFNodeGetStress(listGetElement(ListOfNode)));        
+        PrintData(EFNodeGetStress(listGetElement(ListOfNode)));
+        ListOfNode = listGetNext(ListOfNode);   
         
-    } while ( ! listIsEmpty(listGetNext(ListOfNode))  );
+    }
 
     ListOfNode = BacListOfNode;
     printf("\nDéplacement  |"); //14 caractères
 
-        do
+    while ( ! listIsEmpty(ListOfNode)  )
     {
         PrintData(EFNodeGetDisplacement(listGetElement(ListOfNode)));
+        ListOfNode = listGetNext(ListOfNode);   
         
-        
-    } while ( ! listIsEmpty(listGetNext(ListOfNode))  );
+    }
 
     printf("\n");
 
@@ -104,7 +122,7 @@ void EFDispElemUnit( pEFElement elem) {
 
     if ((eccart % 2) == 0) {
         for (int i = 0; i < ((15 * eccart - 14)/2); i++) printf("-");
-        PrintData(EFElementGetSpringRate(elem));
+        PrintDataElem(EFElementGetSpringRate(elem));
         for (int i = 0; i < ((15 * eccart - 14)/2); i++) printf("-");
         printf(">\n");        
     }
@@ -112,7 +130,7 @@ void EFDispElemUnit( pEFElement elem) {
     else
     {
         for (int i = 0; i < ((15 * (eccart) - 15)/2); i++) printf("-");
-        PrintData(EFElementGetSpringRate(elem));
+        PrintDataElem(EFElementGetSpringRate(elem));
         for (int i = 0; i < ((15 * eccart - 15)/2 + 1); i++) printf("-");
         printf(">\n"); 
     }
@@ -126,21 +144,23 @@ void EFDispElemUnit( pEFElement elem) {
 /**
  * @brief Fonction permettant d'afficher un système mécanique.
  * 
- * @param ListOfEFNode 
- * @param ListOfEFElement 
+ * @param ListOfEFNode Liste chainée des noeuds du système mécanique.
+ * @param ListOfEFElement Liste chainée des elements du système mécanique.
  */
 
 void EFDispSystem (list ListOfEFNode, list ListOfEFElement) {
     EFDispFirstLigne(listGetSize(ListOfEFNode));
     EFDispNodeData(ListOfEFNode);
 
-    do
+    if (! listIsEmpty(ListOfEFElement)) ListOfEFElement = listGoFirst(ListOfEFElement);
+
+    while (!listIsEmpty(ListOfEFElement))
     {
-        EFDispElemUnit( (pEFElement) listGetElement(ListOfEFNode));
-        ListOfEFNode = listGetNext(ListOfEFNode);
-    } while (!listIsEmpty(listGetNext(ListOfEFNode)));
-    
-    
+        EFDispElemUnit( (pEFElement) listGetElement(ListOfEFElement));
+        ListOfEFElement = listGetNext(ListOfEFElement);
+
+    }
+       
 
 }
 
@@ -151,7 +171,16 @@ void EFDispSystem (list ListOfEFNode, list ListOfEFElement) {
  * @return pEFNode Pointeur sur le noeud dont les données ont été saisies
  */
 
-pEFNode EFAskEFNode (pEFNode Noeud) {
+pEFNode EFAskEFNode (list listOfEFNode) {
+    int node_id = listGetSize(listOfEFNode);
+    //int node_id = 1;
+    double node_displacement = 0;
+
+    printf("Création du noeud n°%d \nSaisir le déplacement du noeud : ", node_id);
+    scanf("%lf", &node_displacement);
+
+
+    return EFNodeNew(node_id, node_displacement, 0);
 
 }
 
@@ -162,6 +191,64 @@ pEFNode EFAskEFNode (pEFNode Noeud) {
  * @return pEFElement Pointeur sur l'élément dont les données ont été saisies
  */
 
-pEFElement EFAskElement (pEFElement Element) {
+pEFElement EFAskEFElement (list listOfEFElement) {
+    int element_id = listGetSize(listOfEFElement);
+    double elem_rate = 0;
+    int node1 = 0;
+    int node2 = 0;
 
+    printf("Création de l'élément n°%2d \nSaisir la raideur de l'élément : ", element_id);
+    scanf("%lf", &elem_rate);
+
+    printf("Saisir le numéto du premier noeud d'attache : ");
+    scanf("%d", &node1);
+    printf("Saisir le numéro du deuxième noeud d'attache : ");
+    scanf("%d", &node2);
+
+    return EFElementNew(element_id, node1, node2, elem_rate);
+}
+
+
+/**
+ * @brief Fonction permettant de créer un système mécanique
+ * 
+ * @param listOfNode Liste servant à stocker les noeuds crées
+ * @param listOfElement Liste servant à stocker les éléments crées
+ */
+
+void EFCreateSystem (list *listOfNode, list *listOfElement) {
+
+    char choice[4] = "n";
+
+    do
+    {   
+        system("clear");
+
+        *listOfNode = listAddEnd(*listOfNode, (pEFNode) EFAskEFNode(*listOfNode));
+
+        printf("Avez-vous finis de saisir tous les noeuds ? (y / n) ");
+        scanf("%s", choice);
+
+    } while (! strcmp(&choice, "n"));
+
+    strcpy(choice, "n");
+
+    do
+    {   
+        system("clear");
+        EFDispSystem(*listOfNode, *listOfElement);
+        *listOfElement = listAddEnd(*listOfElement, (pEFNode) EFAskEFElement(*listOfElement));
+
+        system("clear");
+        EFDispSystem(*listOfNode, *listOfElement);
+
+        printf("Avez-vous finis de saisir tous les elements ? (y / n) ");
+        scanf("%s", choice);
+
+    } while (! strcmp(&choice, "n"));
+
+
+    system("clear");
+    EFDispSystem(*listOfNode, *listOfElement);
+    
 }

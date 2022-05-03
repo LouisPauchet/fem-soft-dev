@@ -16,7 +16,10 @@
 #define DMatrix
 #endif
 
+#ifndef DList
 #include "../../include/List.h"
+#define DList
+#endif
 
 #include <string.h>
 
@@ -30,13 +33,15 @@
 
 pMatrix MatrixListSearch ( list workList, char* Name) {
 
-    if ( strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
-        return ((pMatrix) listGetElement(workList));
-    }
+    if (!listIsEmpty(workList)) {
+        if ( ! strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
+            return ((pMatrix) listGetElement(workList));
+        }
 
-    else {
-        MatrixListSearch( listGetPrec(workList), Name);
-        MatrixListSearch( listGetNext(workList), Name);
+        else {
+            MatrixListSearch( listGetPrec(workList), Name);
+            MatrixListSearch( listGetNext(workList), Name);
+        }
     }
 
 }

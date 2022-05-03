@@ -63,9 +63,12 @@ struct listNode {
     #define NameLength 20
 #endif
 
+typedef void* (*FreeElement)(void*);
 
+list listEmpty();
 list listNew();
 list listAddBegin(list, void*);
+list listAddEnd(list, void*);
 list listIsEmpty(list);
 list listGetNext(list);
 list listGetPrec(list);
@@ -74,8 +77,12 @@ list listSetPrec(list, list);
 void* listGetElement(list);
 list listSetElement(list, void*);
 
-list listDelNode(list);
-list listDelList(list);
+list listDelNode(list, FreeElement);
+list listDelList(list, FreeElement);
+
+int listGetSize(list);
+
+list listGoFirst(list);
 
 
 

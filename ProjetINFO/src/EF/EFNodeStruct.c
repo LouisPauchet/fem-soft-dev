@@ -22,6 +22,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+pEFNode EFNodeFree(pEFNode node) {
+    free(node);
+    return(NULL);
+}
+
 int EFNodeGetId (pEFNode node) {
     return node->id;
 }
@@ -47,4 +52,15 @@ double EFNodeGetDisplacement (pEFNode node) {
 pEFNode EFNodeSetDisplacement (pEFNode node, double disp) {
     node->displacement = disp;
     return node;
+}
+
+pEFNode EFNodeNew( int id, double displacement, double stress) {
+
+    pEFNode Node = malloc( sizeof(EFNode));
+    EFNodeSetId(Node, id);
+    EFNodeSetDisplacement(Node, displacement);
+    EFNodeSetStress(Node, stress);
+
+    return Node;
+
 }

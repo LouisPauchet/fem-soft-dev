@@ -6,13 +6,22 @@
 
 #include <stdio.h>
 
+#define DEBUG
+
+extern BOOLEAN WorkWithTriangular;
 
 void main(void)
 {
+    //printf("%d\n", WorkWithTriangular);
+    //printf("%d\n", WorkWithTriangular);
+    WorkWithTriangular = True;
     pMatrix mat1 = matrixNew(2,2,"Toto");
     pMatrix mat2 = matrixNew(3,2,"Titi");
+    printf("%d", matrixIsSym(mat1));
     matrixShow(mat1);
+    matrixSetValue(mat1, 0, 1, (double) 3.);
     matrixSetValue(mat1, 0, 0, (double) 5.);
+    
     matrixSetValue(mat1, 1, 1, 6.);
     matrixShow(mat1);
     matrixShow(mat2);

@@ -9,7 +9,11 @@
  * 
  */
 
+
+#ifndef DList
 #include "./List.h"
+#define DList
+#endif
 
 #ifndef NodeLink
 #define NodeLink 2
@@ -61,7 +65,9 @@ typedef struct {
 typedef EFNode* pEFNode;
 typedef EFElement* pEFElement;
 
-void EFCreateSystem (list);
+pEFElement EFElementFree(pEFElement);
+pEFNode EFNodeFree(pEFNode);
+void EFCreateSystem (list*, list*);
 void EFDispSystem (list, list);
 void EFEquating(list, list, list);
 void EFRestitution(list, list, list);

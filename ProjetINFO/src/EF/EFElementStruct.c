@@ -23,6 +23,19 @@
 #include <stdio.h>
 
 /**
+ * @brief Fonction permettant de libérer un element
+ * 
+ * @param elem element à renvoyer
+ * @return pEFElement renvoie un pointeur sur NULL.
+ */
+
+pEFElement EFElementFree( pEFElement elem) {
+    free(elem);
+    return NULL;
+}
+
+
+/**
  * @brief Fonction permettant d'obtenir le numéro d'un élément
  * 
  * @param Element Poiteur sur un élément
@@ -86,12 +99,12 @@ pEFElement EFElementSetNode (pEFElement Element, int nodePosition, int nodeId) {
     switch (nodePosition)
     {
     case (int) 1:
-        Element->node[1] = nodeId;
+        Element->node[0] = nodeId;
         return Element;
         break;
 
     case (int) 2:
-        Element->node[2] = nodeId;
+        Element->node[1] = nodeId;
         return Element;
         break;
     
@@ -124,4 +137,16 @@ double EFElementGetSpringRate(pEFElement Element) {
 pEFElement EFElementSetSpringRate(pEFElement Element, double rate) {
     Element->rate = rate;
     return Element;
+}
+
+pEFElement EFElementNew( int id, int node1, int node2, double rate) {
+
+    pEFElement Element = malloc( sizeof(EFElement));
+    EFElementSetSpringRate(Element, rate);
+    EFElementSetId(Element, id);
+    EFElementSetNode(Element, 1, node1);
+    EFElementSetNode(Element, 2, node2);
+
+    return Element;
+
 }

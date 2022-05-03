@@ -61,6 +61,8 @@ typedef Matrix* pMatrix;
 
 #endif
 
+extern BOOLEAN WorkWithTriangular;
+
 pMatrix matrixNew(int, int, char*);
 void matrixDel(pMatrix);
 pMatrix matrixProduct(pMatrix, pMatrix, char*);

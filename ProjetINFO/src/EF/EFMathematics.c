@@ -40,9 +40,11 @@ pMatrix EFEquatingK(list listOfEFElement, list listOfEFNode) {
     int n = listGetSize (listOfEFNode);
     pMatrix K = matrixNew(n,n, "K");
 
+    listOfEFElement = listGoFirst(listOfEFElement);
+
     for (int i = 0; i < n ; i++ ) {
-        int a = EFElementGetNode(listGetElement(listOfEFElement), 1) - 1;
-        int b = EFElementGetNode(listGetElement(listOfEFElement), 2) - 1; //On définie les coordonnées correspondant aux noeux attachés à l'élément.
+        int a = EFElementGetNode(listGetElement(listOfEFElement), 1);
+        int b = EFElementGetNode(listGetElement(listOfEFElement), 2); //On définie les coordonnées correspondant aux noeux attachés à l'élément.
 
         double sr = EFElementGetSpringRate(listGetElement(listOfEFElement));
 
@@ -123,9 +125,9 @@ void EFEquatingF( pMatrix mat, list listOfNode) {
  */
 
 void EFEquating(list listOfEFNode, list listOfEFElement, list listOfMatrix) {
-    listAddBegin(listOfMatrix, (pMatrix) EFEquatingK (listOfEFElement, listOfEFNode)); //On ajoute la matrice K créer par la fonction EFEquatingK à la liste chainé de matrice.
-    listAddBegin(listOfMatrix, (pMatrix) EFEquatingU (listOfEFNode)); //On ajoute la matrice U créer par la fonction EFEquatingU à la liste chainée de matrice.
-    listAddBegin(listOfMatrix, (pMatrix) matrixProduct( MatrixListSearch(listOfMatrix, "K"), MatrixListSearch(listOfMatrix, "U"), "F")); // On réalise le produit matriciel F = KU et on stocke le résultat dans une matrice F.
+    listOfMatrix = listAddEnd(listOfMatrix, (pMatrix) EFEquatingK (listOfEFElement, listOfEFNode)); //On ajoute la matrice K créer par la fonction EFEquatingK à la liste chainé de matrice.
+    listAddEnd(listOfMatrix, (pMatrix) EFEquatingU (listOfEFNode)); //On ajoute la matrice U créer par la fonction EFEquatingU à la liste chainée de matrice.
+    listAddEnd(listOfMatrix, (pMatrix) matrixProduct( MatrixListSearch(listOfMatrix, "K"), MatrixListSearch(listOfMatrix, "U"), "F")); // On réalise le produit matriciel F = KU et on stocke le résultat dans une matrice F.
     EFEquatingF( MatrixListSearch(listOfMatrix, "F"), listOfEFNode); //On remonte les efforts calculés dans le système mécanique.
 
 }

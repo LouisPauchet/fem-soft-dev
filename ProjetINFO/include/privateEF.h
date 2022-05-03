@@ -13,6 +13,7 @@ int EFElementGetNode (pEFElement, int);
 pEFElement EFElementSetNode (pEFElement, int, int);
 double EFElementGetSpringRate(pEFElement);
 pEFElement EFElementSetSpringRate(pEFElement, double);
+pEFElement EFElementNew( int, int, int, double);
 
 
 
@@ -25,3 +26,4 @@ double EFNodeGetStress (pEFNode);
 pEFNode EFNodeSetStress (pEFNode, double);
 double EFNodeGetDisplacement (pEFNode);
 pEFNode EFNodeSetDisplacement (pEFNode, double);
+pEFNode EFNodeNew( int, double , double );
