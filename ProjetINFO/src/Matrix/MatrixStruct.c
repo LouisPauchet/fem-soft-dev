@@ -160,6 +160,16 @@ void matrixSetSym(pMatrix mat) {
 }
 
 /**
+ * @brief Fonction permettant de définir une matrice non triangulaire.
+ * 
+ * @param mat Matrice à modifier.
+ */
+
+void matrixSetNotSym (pMatrix mat) {
+    mat->isSym  = False;
+}
+
+/**
  * @brief Fonction permettant d'entrer une valeur dans une matrice
  * 
  * Si la position est en dehors de la matrice, le programme sera stoppé avec le statut "EXIT_FAILURE" et un message d'erreur sera affiché dans le flux d'erreur standard.
@@ -287,7 +297,11 @@ void matrixUnInit(pMatrix mat) {
 void matrixInit(pMatrix mat) {
     //printf("OKOK");
     mat->isInit = True;
+
+    if (matrixIsSym(mat) && (! (matrixGetSize(mat, 'X') == matrixGetSize(mat, 'Y')) )) matrixSetNotSym(mat);
+
     if (matrixIsSym(mat)) {
+
         if ((mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*))) == NULL) {
             fprintf(stderr, "matrixInit - Allocation Faillure - Dimension X");
             mat->isInit = False;
@@ -315,9 +329,12 @@ void matrixInit(pMatrix mat) {
                     mat->isInit = False;
                 };
     }
+
+    /*
     mat->tab = (double**)malloc(matrixGetSize(mat, 'X')*sizeof(double*));
     for (int i=0; i< matrixGetSize(mat, 'X'); i++)
         mat->tab[i] = (double*)malloc(matrixGetSize(mat, 'Y') * sizeof(double));
+        */
 }
 
 /**
@@ -354,11 +371,11 @@ pMatrix matrixNew(int X, int Y, char* Name) {
     matrixSetSize(result,'X',X);
     matrixSetSize(result,'Y',Y);
     matrixSetName(result,Name);
-    printf("A%d", result->isSym);
+    //printf("A%d", result->isSym);
     if (WorkWithTriangular) matrixSetSym(result); //On utilise la variable globale WorkWithTriangular pour choisir si les matrices sont triangulaires ou pas.
     //result->isSym = True;
     
-    printf("A%d", result->isSym);
+    //printf("A%d", result->isSym);
     matrixInit(result);
     matrixSetZero(result);
     return result;

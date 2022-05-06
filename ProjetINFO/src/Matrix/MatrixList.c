@@ -28,12 +28,26 @@
  * 
  * @param workList Liste de travail
  * @param Name Nom de la matrice à rechercher.
- * @return pMatrix 
+ * @return pMatrix Renvoie un pointeur sur la matrice si elle existe dans la liste, NULL sinon.
  */
 
 pMatrix MatrixListSearch ( list workList, char* Name) {
 
-    if (!listIsEmpty(workList)) {
+    workList = listGoFirst(workList);
+
+    while (! listIsEmpty(workList))
+    {
+        if ( ! strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
+            return (pMatrix) listGetElement(workList);
+            printf("OK\n");
+        }
+        workList = listGetNext(workList);
+    }
+
+    return NULL;
+    
+
+    /*if (!listIsEmpty(workList)) {
         if ( ! strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
             return ((pMatrix) listGetElement(workList));
         }
@@ -42,6 +56,17 @@ pMatrix MatrixListSearch ( list workList, char* Name) {
             MatrixListSearch( listGetPrec(workList), Name);
             MatrixListSearch( listGetNext(workList), Name);
         }
-    }
+    }*/
 
+}
+
+void matrixListShow( list workList) {
+    workList = listGoFirst(workList);
+
+    while (! listIsEmpty(workList))
+    {
+        matrixShow(listGetElement(workList));
+        workList = listGetNext(workList);
+    }
+    
 }

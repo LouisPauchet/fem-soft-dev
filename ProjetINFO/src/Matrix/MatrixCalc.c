@@ -53,23 +53,25 @@ BOOLEAN matrixProductDimCheck(pMatrix matA, pMatrix matB) {
  */
 pMatrix matrixProduct(pMatrix matA, pMatrix matB, char* Name) {
   if (matrixProductDimCheck(matA,matB)) {
-    char _name[NameLength] = "MP_";
-    strcmp(_name, Name);
+    char _name[NameLength] = "\0";
+    strcpy(_name, Name);
 
     pMatrix result = matrixNew(matrixGetSize(matA, 'X'), matrixGetSize(matB, 'Y'), _name);
 
+    double SUM = 0;
+
     for (int i = 0; i < matrixGetSize(result, 'X'); i++) {
       for (int j =0; j < matrixGetSize(result, 'Y'); j++) {
+        SUM = 0;
         for (int k = 0; k < matrixGetSize (matA, 'Y'); k++) {
-          matrixSetValue( 
-            result,
-            i,
-            j,
-            matrixGetValue(result, i, j) + matrixGetValue(matA, i, k) * matrixGetValue(matB, k, j)
-          );
+          SUM += matrixGetValue(matA, i, k) * matrixGetValue(matB, k, j);
+          
         }
+        //printf("%lf \n", SUM);
+        matrixSetValue( result, i, j, SUM );
       }
     }
+    matrixShow(result);
     return result;
   }
 

@@ -27,14 +27,18 @@ int main(int argc, char const *argv[])
     list ListOfElement = listEmpty();
     char choice = 'n';
 
-    //printf("Voulez-vous travailler avec des matrices creuses ? (y/n)");
-    //scanf("%c", &choice);
+    printf("Voulez-vous travailler avec des matrices creuses ? (y/n)");
+    scanf("%c", &choice);
 
     if (choice == 'y') WorkWithTriangular = True;
 
     EFCreateSystem(&ListOfNode, &ListOfElement);
 
-    EFEquating(ListOfNode, ListOfElement, ListOfMatrix);
+    EFEquating(ListOfNode, ListOfElement, &ListOfMatrix);
+
+    matrixListShow(ListOfMatrix);
+
+    printf("\n\n\n Système mécanique avec les efforts calculés \n\n\n");
 
     EFDispSystem(ListOfNode, ListOfElement);
 

@@ -74,5 +74,6 @@ void matrixShow(pMatrix);
 void matrixWrite (pMatrix, char* );
 pMatrix matrixLoad (pMatrix, char*);
 pMatrix MatrixListSearch ( list, char*);
+void matrixListShow( list);
 
 

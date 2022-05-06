@@ -69,5 +69,5 @@ pEFElement EFElementFree(pEFElement);
 pEFNode EFNodeFree(pEFNode);
 void EFCreateSystem (list*, list*);
 void EFDispSystem (list, list);
-void EFEquating(list, list, list);
+void EFEquating(list, list, list*);
 void EFRestitution(list, list, list);

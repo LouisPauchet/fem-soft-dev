@@ -275,8 +275,8 @@ list listGetNodeBy(list workList, union IdType (*pf)(void*), char* Id, char Meth
 list listDelNode(list node, FreeElement freeElem) {
     if (!(listIsEmpty(node))) {
         freeElem(listGetElement(node));
-        listSetNext(listGetPrec(node), listGetNext(node));
-        listSetPrec(listGetNext(node), listGetPrec(node));
+        if (! listIsEmpty(listGetPrec(node))) listSetNext(listGetPrec(node), listGetNext(node));
+        if (! listIsEmpty(listGetNext(node))) listSetPrec(listGetNext(node), listGetPrec(node));
         free(node);
     }
 
@@ -293,10 +293,7 @@ list listDelNode(list node, FreeElement freeElem) {
 
 list listDelList(list node, FreeElement freeElem) {
 
-    while ( ! listIsEmpty(listGetPrec(node)))
-    {
-        listDelNode(listGetPrec(node), freeElem);
-    }
+    node = listGoFirst(node);
     
     while ( ! listIsEmpty(listGetNext(node)))
     {
@@ -305,6 +302,8 @@ list listDelList(list node, FreeElement freeElem) {
 
     listDelNode(node, freeElem);
     node = listEmpty();
+
+    return node;
     
 
 }
@@ -357,6 +356,12 @@ int listGetSize(list node) {
     
 }
 
+/**
+ * @brief Fonction permettant d'obtenir le premier maillon d'une liste chainée.
+ * 
+ * @param node Maillon d'entrée sur la lsite chainée.
+ * @return list Renvoie le premier maillon de la liste chainée.
+ */
 
 list listGoFirst(list node) {
     while (!listIsEmpty(listGetPrec(node)))

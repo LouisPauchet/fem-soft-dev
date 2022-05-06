@@ -42,7 +42,7 @@ pMatrix EFEquatingK(list listOfEFElement, list listOfEFNode) {
 
     listOfEFElement = listGoFirst(listOfEFElement);
 
-    for (int i = 0; i < n ; i++ ) {
+    while (!listIsEmpty(listOfEFElement)) {
         int a = EFElementGetNode(listGetElement(listOfEFElement), 1);
         int b = EFElementGetNode(listGetElement(listOfEFElement), 2); //On définie les coordonnées correspondant aux noeux attachés à l'élément.
 
@@ -91,12 +91,16 @@ pMatrix EFEquatingK(list listOfEFElement, list listOfEFNode) {
 
 pMatrix EFEquatingU(list listOfEFNode) {
     int n = listGetSize(listOfEFNode);
-    pMatrix U = matrixNew(n, n, "U");
+    pMatrix U = matrixNew(n, 1, "U");
+
+    listOfEFNode = listGoFirst(listOfEFNode);
 
     for (int i = 0; i < n; i++) { //On parcours l'enssemble des noeuds présents dans la liste.
         matrixSetValue(U, i, 0, EFNodeGetDisplacement( (pEFNode) listGetElement(listOfEFNode)));
         listOfEFNode = listGetNext( listOfEFNode ); //On récupère l'élément suivant.
     }
+
+    return U;
 
 }
 
@@ -107,12 +111,18 @@ pMatrix EFEquatingU(list listOfEFNode) {
  * @param listOfNode Pointeur sur le premier maillon de la list des noeuds.
  */
 
-void EFEquatingF( pMatrix mat, list listOfNode) {
-    int n = matrixGetSize(mat, 'X');
+void EFEquatingF( pMatrix matF, list listOfNode) {
+    int n = matrixGetSize(matF, 'X');
+    int i=0;
 
-    for (int i = 0; i < n; i++) {
-        EFNodeSetStress( (pEFNode) listGetElement(listOfNode), matrixGetValue(mat, i, 0));
+    listOfNode = listGoFirst(listOfNode);
+
+    while ( ! listIsEmpty(listOfNode)) {
+        EFNodeSetStress( (pEFNode) listGetElement(listOfNode), matrixGetValue(matF, i, 0));
+        
+        //printf("%lf \n", matrixGetValue(matF, i, 0)), 
         listOfNode = listGetNext(listOfNode);
+        i += 1;
     }
 }
 
@@ -124,11 +134,11 @@ void EFEquatingF( pMatrix mat, list listOfNode) {
  * @param listOfMatrix Liste des matrices représentant le problème.
  */
 
-void EFEquating(list listOfEFNode, list listOfEFElement, list listOfMatrix) {
-    listOfMatrix = listAddEnd(listOfMatrix, (pMatrix) EFEquatingK (listOfEFElement, listOfEFNode)); //On ajoute la matrice K créer par la fonction EFEquatingK à la liste chainé de matrice.
-    listAddEnd(listOfMatrix, (pMatrix) EFEquatingU (listOfEFNode)); //On ajoute la matrice U créer par la fonction EFEquatingU à la liste chainée de matrice.
-    listAddEnd(listOfMatrix, (pMatrix) matrixProduct( MatrixListSearch(listOfMatrix, "K"), MatrixListSearch(listOfMatrix, "U"), "F")); // On réalise le produit matriciel F = KU et on stocke le résultat dans une matrice F.
-    EFEquatingF( MatrixListSearch(listOfMatrix, "F"), listOfEFNode); //On remonte les efforts calculés dans le système mécanique.
+void EFEquating(list listOfEFNode, list listOfEFElement, list* listOfMatrix) {
+    *listOfMatrix = listAddEnd(*listOfMatrix, (pMatrix) EFEquatingK (listOfEFElement, listOfEFNode)); //On ajoute la matrice K créer par la fonction EFEquatingK à la liste chainé de matrice.
+    listAddEnd(*listOfMatrix, (pMatrix) EFEquatingU (listOfEFNode)); //On ajoute la matrice U créer par la fonction EFEquatingU à la liste chainée de matrice.
+    listAddEnd(*listOfMatrix, (pMatrix) matrixProduct( MatrixListSearch(listOfMatrix, "K"), MatrixListSearch(listOfMatrix, "U"), "F")); // On réalise le produit matriciel F = KU et on stocke le résultat dans une matrice F.
+    EFEquatingF( MatrixListSearch(*listOfMatrix, "F"), listOfEFNode); //On remonte les efforts calculés dans le système mécanique.
 
 }
 
