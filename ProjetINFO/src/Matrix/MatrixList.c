@@ -1,7 +1,7 @@
 /**
  * @file MatrixList
  * @author Louis Pauchet (louis.pauchet@insa-rouen.fr)
- * @brief 
+ * @brief Fichier definissant les fonctions permettant de rechercher une matrice dans une liste chainée
  * @version 0.1
  * @date 2022-05-02
  * 
@@ -39,7 +39,7 @@ pMatrix MatrixListSearch ( list workList, char* Name) {
     {
         if ( ! strcmp (matrixGetName( (pMatrix) listGetElement(workList)), Name)) {
             return (pMatrix) listGetElement(workList);
-            printf("OK\n");
+            //printf("OK\n");
         }
         workList = listGetNext(workList);
     }
@@ -60,6 +60,7 @@ pMatrix MatrixListSearch ( list workList, char* Name) {
 
 }
 
+/*
 void matrixListShow( list workList) {
     workList = listGoFirst(workList);
 
@@ -69,4 +70,4 @@ void matrixListShow( list workList) {
         workList = listGetNext(workList);
     }
     
-}
+} */

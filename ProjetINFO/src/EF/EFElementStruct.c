@@ -1,7 +1,7 @@
 /**
  * @file EFElementStruct.c
  * @author Louis Pauchet (louis.pauchet@insa-rouen.fr)
- * @brief Getteurs et Setteurs pour manipuler les EFElement
+ * @brief Fonctions permettant de manipuler les objets de type @ref EFElement et @ref pEFElement
  * @version 0.1
  * @date 2022-05-02
  * 
@@ -147,6 +147,8 @@ pEFElement EFElementNew( int id, int node1, int node2, double rate) {
     EFElementSetNode(Element, 1, node1);
     EFElementSetNode(Element, 2, node2);
 
-    return Element;
+    //printf("\n%d", Element);
+
+    return (pEFElement) Element;
 
 }

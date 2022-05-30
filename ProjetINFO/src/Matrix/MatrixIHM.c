@@ -9,6 +9,8 @@
  * 
  */
 
+char G_WorkDirectory[50] = "./data/";
+
 #include "../../include/privateMatrix.h"
 #ifndef DMatrix
 #include "../../include/Matrix.h"
@@ -172,12 +174,14 @@ pMatrix matrixLoad (pMatrix mat, char* filePath) {
  * 
  * Le fichier portera l'extension ".cMat" et sera nommé du nom de la matrice préfixé de "mat_"
  * 
+ * La définition du répertoire de sauvegarde se fait via la variable globale G_WorkDirectory qui devra contenir l'adresse du répertoire de sauvegarde.
+ * Par défaut le répertoire de sauvegarde sera "../data/"
+ * 
  * @param mat Un pointeur sur la matrice à écrire.
- * @param filePath Le répertoire où écrire la matrice.
  */
-void matrixWrite (pMatrix mat, char* filePath) {
+void matrixWrite (pMatrix mat) {
     char fileName[60] = "\0";
-    strcpy(fileName, filePath);
+    strcpy(fileName, G_WorkDirectory);
     strcat(fileName, "mat_");
     strcat(fileName, mat->name);
     strcat(fileName, ".cMat");

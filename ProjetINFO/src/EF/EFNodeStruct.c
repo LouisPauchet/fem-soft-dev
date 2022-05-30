@@ -1,7 +1,7 @@
 /**
  * @file EFNodeStruct.c
  * @author Louis Pauchet (louis.pauchet@insa-rouen.fr)
- * @brief Getteur et Setteur pour l'utilisation des EFNodes.
+ * @brief Fonction permettant de manipuler les structures @ref EFNode et @ref pEFNode
  * @version 0.1
  * @date 2022-05-02
  * 
@@ -23,8 +23,10 @@
 #include <stdio.h>
 
 pEFNode EFNodeFree(pEFNode node) {
+    if (!(node = NULL)) {
     free(node);
-    return(NULL);
+    }
+    return(node);
 }
 
 int EFNodeGetId (pEFNode node) {

@@ -1,7 +1,7 @@
 /**
  * @file EFIHM.c
  * @author Louis Pauchet (louis.pauchet@insa-rouen.fr)
- * @brief 
+ * @brief Fichier contenant la définission des fonctions permettant à l'utilisateur d'intéragir avec les types @ref EFElement, @ref EFNode, @ref pEFElement et @ref pEFNode.
  * @version 0.1
  * @date 2022-04-25
  * 
@@ -55,6 +55,11 @@ void printLine(int n, char a) {
     }
     printf ("\n");
 }
+
+BOOLEAN stringIsEmpty (char* string) {
+    return  (int)( ! (strlen(string) > 1));
+}
+
 
 void EFDispFirstLigne(int NbNode) {
     //Affichage de la première ligne avec la liste des noeuds.
@@ -148,16 +153,16 @@ void EFDispElemUnit( pEFElement elem) {
  * @param ListOfEFElement Liste chainée des elements du système mécanique.
  */
 
-void EFDispSystem (list ListOfEFNode, list ListOfEFElement) {
-    EFDispFirstLigne(listGetSize(ListOfEFNode));
-    EFDispNodeData(ListOfEFNode);
+void EFDispSystem (EFMecanicalSystem System) {
+    EFDispFirstLigne(listGetSize(System.ListOfNode));
+    EFDispNodeData(System.ListOfNode);
 
-    if (! listIsEmpty(ListOfEFElement)) ListOfEFElement = listGoFirst(ListOfEFElement);
+    if (! listIsEmpty(System.ListOfElement)) System.ListOfElement = listGoFirst(System.ListOfElement);
 
-    while (!listIsEmpty(ListOfEFElement))
+    while (!listIsEmpty(System.ListOfElement))
     {
-        EFDispElemUnit( (pEFElement) listGetElement(ListOfEFElement));
-        ListOfEFElement = listGetNext(ListOfEFElement);
+        EFDispElemUnit( (pEFElement) listGetElement(System.ListOfElement));
+        System.ListOfElement = listGetNext(System.ListOfElement);
 
     }
        
@@ -165,22 +170,67 @@ void EFDispSystem (list ListOfEFNode, list ListOfEFElement) {
 }
 
 /**
- * @brief Fonction permettant de demander à l'utilisateur de saisir un noeud
+ * @brief Fonction permettant de demander à l'utilisateur de saisir les éléments du système.
  * 
- * @param Noeud Pointeur sur le noeud devant être saisie.
- * @return pEFNode Pointeur sur le noeud dont les données ont été saisies
+ * On ne retourne rien car on modifie directement le system via le passage en paramètre d'un pointeur sur une structure @ref EFMecanicalSystem .
+ * 
+ * @param System Pointeur sur le system de travail.
  */
 
-pEFNode EFAskEFNode (list listOfEFNode) {
-    int node_id = listGetSize(listOfEFNode);
-    //int node_id = 1;
-    double node_displacement = 0;
+void EFAskEFNodes (EFMecanicalSystem* System) {
 
-    printf("Création du noeud n°%d \nSaisir le déplacement du noeud : ", node_id);
-    scanf("%lf", &node_displacement);
+    list ListOfNode = System->ListOfNode;
+    list ListOfNodeR = System->ListOfNodeR;
+    list ListOfNodeF = System->ListOfNodeF;
+
+    pEFNode pNewNode = NULL;
+
+    char choice[4] = "n";
+    char buffer[20] = "\0";
 
 
-    return EFNodeNew(node_id, node_displacement, 0);
+
+    do
+    {   
+        system("clear");
+
+            int node_id = listGetSize(ListOfNode); //définition des varaibles
+            double node_stress = 0, node_displacement = 0;
+
+            printf("Création du noeud n°%d \nSaisir le déplacment du noeud : ", node_id);
+
+            getchar();
+
+            fgets(buffer, 20, stdin); //récupération de la saisie de l'utilisateur
+
+            printf("\n");
+            if ( ! stringIsEmpty(buffer)) { //si la liste n'est pas vide = un déplacement a été saisie.
+                node_displacement = (double) strtod(buffer, NULL);
+                pNewNode = EFNodeNew (node_id, node_displacement, (double) 0.); //On crée le noeud et on l'ajoute le noeud à la liste des noeuds sans déplacement
+                ListOfNodeR = listAddEnd(ListOfNodeR, pNewNode);
+            }
+
+            else {
+                system("clear");
+                printf("Création du noeud n°%d \nPas de déplacement saisie\nSaisir l'effort du noeud : ", node_id);
+                scanf("%lf", &node_stress);
+                pNewNode = EFNodeNew (node_id, (double) 0., node_stress);
+                ListOfNodeF = listAddEnd(ListOfNodeF, pNewNode);
+            }
+
+        ListOfNode = listAddEnd(ListOfNode, (pEFNode) pNewNode);
+
+        printf("Avez-vous finis de saisir tous les noeuds ? (y / n) ");
+        scanf("%s", choice);
+
+    } while (! strcmp(&choice, "n"));
+
+
+    System->ListOfNode = ListOfNode;
+    System->ListOfNodeR = ListOfNodeR;
+    System->ListOfNodeF = ListOfNodeF;
+
+    return 0;
 
 }
 
@@ -191,7 +241,7 @@ pEFNode EFAskEFNode (list listOfEFNode) {
  * @return pEFElement Pointeur sur l'élément dont les données ont été saisies
  */
 
-pEFElement EFAskEFElement (list listOfEFElement) {
+pEFElement EFAskEFElement (list listOfEFElement, int systemsize) {
     int element_id = listGetSize(listOfEFElement);
     double elem_rate = 0;
     int node1 = 0;
@@ -202,8 +252,20 @@ pEFElement EFAskEFElement (list listOfEFElement) {
 
     printf("Saisir le numéto du premier noeud d'attache : ");
     scanf("%d", &node1);
+    while ((node1 < 0) || (node1 > systemsize))
+    {
+        printf("ERREUR\nSaisir le numéto du premier noeud d'attache compris entre 0 et %d : ", systemsize - 1);
+        scanf("%d", &node1);
+    }
+    
+
     printf("Saisir le numéro du deuxième noeud d'attache : ");
     scanf("%d", &node2);
+    while ((node2 < 0) || (node2 > systemsize) || (node2 == node1))
+    {
+        printf("ERREUR\nSaisir le numéto du deuxième noeud d'attache compris entre 0 et %d et différent du noeud %d : ", systemsize, node1);
+        scanf("%d", &node2);
+    }
 
     return EFElementNew(element_id, node1, node2, elem_rate);
 }
@@ -212,35 +274,27 @@ pEFElement EFAskEFElement (list listOfEFElement) {
 /**
  * @brief Fonction permettant de créer un système mécanique
  * 
- * @param listOfNode Liste servant à stocker les noeuds crées
- * @param listOfElement Liste servant à stocker les éléments crées
+ * Dans un premier temps on demande à l'utilisateur de saisir la liste des noeuds puis des élements.
+ * Une fois tous les noeuds saisies, on affiche le system et on affiche les éléments au fur et à mesure.
+ * 
+ * @param System System mécanique de travail de type @ref EFMecanicalSystem
  */
 
-void EFCreateSystem (list *listOfNode, list *listOfElement) {
+void EFCreateSystem (EFMecanicalSystem* System) {
 
     char choice[4] = "n";
 
+    EFAskEFNodes(System);
+
+    int systemsize = listGetSize(System->ListOfNode);
     do
     {   
         system("clear");
-
-        *listOfNode = listAddEnd(*listOfNode, (pEFNode) EFAskEFNode(*listOfNode));
-
-        printf("Avez-vous finis de saisir tous les noeuds ? (y / n) ");
-        scanf("%s", choice);
-
-    } while (! strcmp(&choice, "n"));
-
-    strcpy(choice, "n");
-
-    do
-    {   
-        system("clear");
-        EFDispSystem(*listOfNode, *listOfElement);
-        *listOfElement = listAddEnd(*listOfElement, (pEFNode) EFAskEFElement(*listOfElement));
+        EFDispSystem(*System);
+        System->ListOfElement = listAddEnd(System->ListOfElement, (pEFNode) EFAskEFElement(System->ListOfElement, systemsize));
 
         system("clear");
-        EFDispSystem(*listOfNode, *listOfElement);
+        EFDispSystem(*System);
 
         printf("Avez-vous finis de saisir tous les elements ? (y / n) ");
         scanf("%s", choice);
@@ -249,6 +303,6 @@ void EFCreateSystem (list *listOfNode, list *listOfElement) {
 
 
     system("clear");
-    EFDispSystem(*listOfNode, *listOfElement);
+    EFDispSystem(*System);
     
 }

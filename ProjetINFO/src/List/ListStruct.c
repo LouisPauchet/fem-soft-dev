@@ -1,7 +1,7 @@
 /**
  * @file ListStruct.c
  * @author Louis Pauchet (louis.pauchet@insa-rouen.fr)
- * @brief Développement des fonctions permettant d'utiliser le type de liste chainées.
+ * @brief Fichier contenant les fonctions permettant de manipuler le type de liste chainées.
  * @version 0.1
  * @date 2022-05-02
  * 
@@ -156,13 +156,13 @@ list listAddBegin(list WorkList, void* elementToAdd) {
 
 
 list listAddEnd(list WorkList, void* elementToAdd) {
-
+    //printf("\n \n %d", elementToAdd);
     if (listIsEmpty(WorkList)) {
         WorkList = listAlloc();
         listSetPrec(WorkList, listEmpty());
         listSetNext(WorkList, listEmpty());
         listSetElement(WorkList, elementToAdd);
-
+        //printf("\n \n %d", elementToAdd);
         return WorkList;
 
     }
@@ -174,7 +174,7 @@ list listAddEnd(list WorkList, void* elementToAdd) {
             listSetPrec(newnode, WorkList);
             listSetNext(newnode, listEmpty());
             listSetElement(newnode, elementToAdd);
-
+            //printf("\n \n %d", elementToAdd);
             listSetNext(WorkList, newnode);
 
             return newnode;
@@ -274,7 +274,10 @@ list listGetNodeBy(list workList, union IdType (*pf)(void*), char* Id, char Meth
 
 list listDelNode(list node, FreeElement freeElem) {
     if (!(listIsEmpty(node))) {
-        freeElem(listGetElement(node));
+        if (! (listGetElement(node) == NULL)) {
+            freeElem(listGetElement(node));
+            listSetElement(node, NULL);
+        }
         if (! listIsEmpty(listGetPrec(node))) listSetNext(listGetPrec(node), listGetNext(node));
         if (! listIsEmpty(listGetNext(node))) listSetPrec(listGetNext(node), listGetPrec(node));
         free(node);
@@ -293,6 +296,8 @@ list listDelNode(list node, FreeElement freeElem) {
 
 list listDelList(list node, FreeElement freeElem) {
 
+    if (listIsEmpty(node)) return node;
+
     node = listGoFirst(node);
     
     while ( ! listIsEmpty(listGetNext(node)))
@@ -308,6 +313,28 @@ list listDelList(list node, FreeElement freeElem) {
 
 }
 
+/**
+ * @brief Fonction permettant d'effectuer une opération sur les éléments stockés dans la liste.
+ * 
+ * @param WorkList Liste de travail passée en paramètre.
+ * @param FonctionTraitement Fonction permettant de traiter les éléments de la liste prenant en entrée un pointeur void* en n'ayant pas de retour
+ */
+
+void listDoForList(list WorkList, DispElement FonctionTraitement) {
+    WorkList = listGoFirst(WorkList);
+
+    while (!listIsEmpty(WorkList)) { 
+        FonctionTraitement(listGetElement(WorkList));
+        WorkList = listGetNext(WorkList);
+    }
+}
+
+/**
+ * @brief Fonction permettant d'obtenir le nombre d'éléments à droite du maillon passé en paramètre
+ * 
+ * @param node Maillon Passé en paramètre
+ * @return int Notre d'élément à droite
+ */
 
 int listGetSizeRight(list node) {
     if (listIsEmpty(node)) return 0;
@@ -316,6 +343,13 @@ int listGetSizeRight(list node) {
         return (1 + listGetSizeRight(listGetNext(node)));
     }
 }
+
+/**
+ * @brief Fonction permettant d'obtenir le nombre d'éléments à gauche du maillon passé en paramètre
+ * 
+ * @param node Maillon Passé en paramètre
+ * @return int Notre d'élément à gauche
+ */
 
 int listGetSizeLeft(list node) {
     if (listIsEmpty(node)) return 0;
@@ -364,11 +398,16 @@ int listGetSize(list node) {
  */
 
 list listGoFirst(list node) {
+
+    if (listIsEmpty(node)) {
+        return NULL;
+    }
+
     while (!listIsEmpty(listGetPrec(node)))
     {
         node = listGetPrec(node);
     }
-
+    
     return node;
     
 }

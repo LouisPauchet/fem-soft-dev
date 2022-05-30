@@ -1,11 +1,21 @@
-#include <CUnit/CUnit.h>
-#include <CUnit/Basic.h>
-#include <CUnit/TestRun.h>
-#include <string.h>
+/**
+ * @file testMatrixStruct.c
+ * @author Louis Pauchet
+ * @brief Fichier des tests unitaires des fonctions permettant de manipuler les types @ref Matrix et @ref pMatrix
+ * @version 0.1
+ * @date 2022-05-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
+
+#include "./testHeader.h"
 
 #ifndef Matrix
 #include "../../include/Matrix.h"
 #endif
+
 
 static const double epsilon = 0.00000000001;
 
@@ -20,6 +30,7 @@ void test_matrixGetSize(void) {
     CU_ASSERT_NOT_EQUAL(matrixGetSize(&TestMatrix,'X'), 2);
 }
 
+
 void test_matrixSetSize(void) {
     Matrix TestMatrix;
     matrixSetSize(&TestMatrix, 'X', 3);
@@ -31,25 +42,6 @@ void test_matrixSetSize(void) {
     CU_ASSERT_NOT_EQUAL(matrixGetSize(&TestMatrix,'X'), 2);
 }
 
-void test_matrixGetName(void) {
-    Matrix TestMatrix;
-    strcpy(TestMatrix.name, "Nom 1");
-
-    CU_ASSERT_STRING_EQUAL(matrixGetName(&TestMatrix), "Nom 1");
-}
-
-void test_matrixSetName(void) {
-    Matrix TestMatrix;
-
-    matrixSetName(&TestMatrix, "Test Nom");
-    CU_ASSERT_STRING_EQUAL(matrixGetName(&TestMatrix), "Test Nom");
-    matrixSetName(&TestMatrix, "");
-    CU_ASSERT_STRING_EQUAL(matrixGetName(&TestMatrix), "");
-    matrixSetName(&TestMatrix, "aaaaaaaaaaaaaaaaaaaa");
-    CU_ASSERT_STRING_EQUAL(matrixGetName(&TestMatrix), "aaaaaaaaaaaaaaaaaaaa");
-    matrixSetName(&TestMatrix, "aaaaaaaaaaaaaaaaaaaaaaTestTest");
-    CU_ASSERT_STRING_EQUAL(matrixGetName(&TestMatrix), "aaaaaaaaaaaaaaaaaaaa");
-}
 
 void test_matrixFieldExist(void) {
     Matrix TestMatrix;
@@ -73,18 +65,4 @@ void test_matrixIsSym(void) {
     CU_ASSERT(matrixIsSym(&TestMatrix));
     TestMatrix.isSym = 384993;
     CU_ASSERT_FALSE(matrixIsSym(&TestMatrix));
-}
-
-void main(void) {
-    CU_ErrorCode CU_initialize_registry(void);
-    
-    CU_pSuite MatrixStruct = CU_add_suite("Testing MatrixStruct", NULL, NULL);
-
-    CU_ADD_TEST(MatrixStruct, test_matrixGetSize);
-    CU_ADD_TEST(MatrixStruct, test_matrixSetSize);
-    CU_ADD_TEST(MatrixStruct, test_matrixGetName);
-    CU_ADD_TEST(MatrixStruct, test_matrixSetName);
-    CU_ADD_TEST(MatrixStruct, test_matrixFieldExist);
-    CU_ADD_TEST(MatrixStruct, test_matrixIsSym);
-
 }

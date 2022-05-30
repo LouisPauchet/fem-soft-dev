@@ -191,7 +191,7 @@ void matrixSetValue(pMatrix mat, int dX, int dY, double value) {
     }
         
     else {
-        fprintf(stderr, "matrixSetValue - Out of range \n");
+        fprintf(stderr, "matrixSetValue - Out of range - %s %d %d\n", mat->name, dX, dY);
         exit(EXIT_FAILURE);
     }
 }
@@ -230,7 +230,7 @@ double matrixGetValue(pMatrix mat, int dX, int dY) {
             return (double) (mat->tab[dX][dY]);
     }
     else {
-        fprintf(stderr, "matrixGetValue - Out of range \n");
+        fprintf(stderr, "matrixGetValue - Out of range - %s %d %d\n", mat->name, dX, dY);
         exit(EXIT_FAILURE);
     }
     //return mat->tab[dX][dY];
@@ -401,6 +401,8 @@ void matrixDel(pMatrix mat) {
 
 /**
  * @brief Fonction permettent de remplacer une matrice par une autre.
+ * 
+ * Attention le stockage de la matrice new sera supprimé.
  * 
  * @param old Pointeur sur la matrice à remplacer.
  * @param new Pointeur sur la matrice de remplacement

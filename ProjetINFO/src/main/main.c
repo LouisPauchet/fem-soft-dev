@@ -10,21 +10,25 @@
  */
 
 
-//#include "../../include/List.h"
+
 
 
 #include "../../include/EF.h"
 #include "../../include/Matrix.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 extern BOOLEAN WorkWithTriangular;
 
-int main(int argc, char const *argv[])
+int main(void)
 {
-    list ListOfMatrix = listEmpty();
-    list ListOfNode = listEmpty();
-    list ListOfElement = listEmpty();
+    system("clear");
+    //On crée le système mécanique.
+
+    EFMecanicalSystem System;
+    EFSystemInit(&System);
+
     char choice = 'n';
 
     printf("Voulez-vous travailler avec des matrices creuses ? (y/n)");
@@ -32,20 +36,22 @@ int main(int argc, char const *argv[])
 
     if (choice == 'y') WorkWithTriangular = True;
 
-    EFCreateSystem(&ListOfNode, &ListOfElement);
+    EFCreateSystem(&System); //Créarion du système
 
-    EFEquating(ListOfNode, ListOfElement, &ListOfMatrix);
+    EFEquating(&System); //Mise en équations et résolution
 
-    matrixListShow(ListOfMatrix);
+    system("clear");
 
-    printf("\n\n\n Système mécanique avec les efforts calculés \n\n\n");
+    listDoForList(System.ListOfMatrix, matrixShow); //Affichage des matrices
+    //listDoForList(system.ListOfMatrix, matrixWrite);
 
-    EFDispSystem(ListOfNode, ListOfElement);
+    printf("\n\n\n *** Système résolu ***\n\n\n");
 
-    listDelList(ListOfNode, EFNodeFree);
-    listDelList(ListOfElement, EFElementFree);
-    listDelList(ListOfMatrix, matrixDel);   
+    EFDispSystem(System); //Affichage système final.
 
+    printf("\n\n\n");
+
+    EFSystemDelete(&System);
 
     return 0;
 }
