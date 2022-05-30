@@ -1,6 +1,6 @@
 CC = gcc
 AR = ar
-CFFLAGS = -g -I$(INCLUDEDIR)
+CFFLAGS = -g -I$(INCLUDEDIR) -std=c99
 LDFLAGS = -lm -no-pie
 
 MAKE = make
@@ -189,7 +189,7 @@ delSendAr :
 	rm -f ./ProjetArchive.tar.gz
 
 valgrind : $(BINDIR)/$(EXEC)
-	$(LEAKSOFT)  --leak-check=full $(BINDIR)/$(EXEC) 
+	$(LEAKSOFT)  --leak-check=full -s $(BINDIR)/$(EXEC) 
 
 #Suppression des fichiers de stockage des matrices.
 

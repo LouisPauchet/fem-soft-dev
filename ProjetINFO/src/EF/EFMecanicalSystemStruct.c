@@ -17,13 +17,18 @@
  * 
  * @param System 
  */
+
+void* NoFree(void* node) {
+    return node;
+}
+
 void EFSystemDelete ( EFMecanicalSystem* System ) {
     
     listDelList(System->ListOfNode, EFNodeFree);
     listDelList(System->ListOfElement, EFElementFree);
     listDelList(System->ListOfMatrix, matrixDel);
-    listDelList(System->ListOfNodeF, EFNodeFree);
-    listDelList(System->ListOfNodeR, EFNodeFree);
+    listDelList(System->ListOfNodeF, NoFree); //Les noeuds ont déjà été supprimés lors de la suppression de System->ListOfNode
+    listDelList(System->ListOfNodeR, NoFree);
 
 }
 

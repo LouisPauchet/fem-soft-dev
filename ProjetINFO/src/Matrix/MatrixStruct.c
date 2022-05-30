@@ -392,7 +392,7 @@ pMatrix matrixNew(int X, int Y, char* Name) {
  */
 
 void matrixDel(pMatrix mat) {
-    if (mat == NULL) {
+    if (!(mat == NULL)) {
         matrixUnInit(mat);
         matrixUnAlloc(mat);
     }

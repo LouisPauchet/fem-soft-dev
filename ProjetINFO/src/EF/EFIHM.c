@@ -197,7 +197,7 @@ void EFAskEFNodes (EFMecanicalSystem* System) {
             int node_id = listGetSize(ListOfNode); //définition des varaibles
             double node_stress = 0, node_displacement = 0;
 
-            printf("Création du noeud n°%d \nSaisir le déplacment du noeud : ", node_id);
+            printf("Création du noeud n°%d \nSaisir le déplacement du noeud ou Entrer pour saisir un effort : ", node_id);
 
             getchar();
 

@@ -23,8 +23,9 @@
 #include <stdio.h>
 
 pEFNode EFNodeFree(pEFNode node) {
-    if (!(node = NULL)) {
-    free(node);
+    if (!(node == NULL)) {
+        free(node);
+        node = NULL;
     }
     return(node);
 }

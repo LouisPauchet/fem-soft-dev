@@ -275,7 +275,7 @@ list listGetNodeBy(list workList, union IdType (*pf)(void*), char* Id, char Meth
 list listDelNode(list node, FreeElement freeElem) {
     if (!(listIsEmpty(node))) {
         if (! (listGetElement(node) == NULL)) {
-            freeElem(listGetElement(node));
+            listSetElement(node, freeElem(listGetElement(node)));
             listSetElement(node, NULL);
         }
         if (! listIsEmpty(listGetPrec(node))) listSetNext(listGetPrec(node), listGetNext(node));
