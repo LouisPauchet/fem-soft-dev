@@ -64,6 +64,7 @@ struct listNode {
 #endif
 
 typedef void* (*FreeElement)(void*);
+typedef void (*DispElement)(void*);
 
 list listEmpty();
 list listNew();
@@ -80,9 +81,12 @@ list listSetElement(list, void*);
 list listDelNode(list, FreeElement);
 list listDelList(list, FreeElement);
 
+
 int listGetSize(list);
 
 list listGoFirst(list);
+
+void listDoForList(list, DispElement);
 
 
 

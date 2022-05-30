@@ -67,13 +67,16 @@ pMatrix matrixNew(int, int, char*);
 void matrixDel(pMatrix);
 pMatrix matrixProduct(pMatrix, pMatrix, char*);
 pMatrix matrixTranspose(pMatrix);
-pMatrix matrixSum(pMatrix, pMatrix);
-pMatrix matrixScalar(pMatrix, double);
+pMatrix matrixSum(pMatrix, pMatrix, char*);
+pMatrix matrixSubstraction(pMatrix, pMatrix, char*);
+pMatrix matrixScalar(pMatrix, double, char*);
 pMatrix matrixReplace(pMatrix, pMatrix);
 void matrixShow(pMatrix);
-void matrixWrite (pMatrix, char* );
-pMatrix matrixLoad (pMatrix, char*);
+void matrixWrite (pMatrix);
 pMatrix MatrixListSearch ( list, char*);
 void matrixListShow( list);
+pMatrix matrixSystemSolve (pMatrix, pMatrix, char*);
+
+BOOLEAN matrixIsEqual (pMatrix, pMatrix);
 
 

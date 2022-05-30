@@ -25,17 +25,14 @@
  */
 
 typedef struct {
-    int id; /**
-     * @brief Entier permettant d'identifier le noeud
+    int id; /**< @brief Entier permettant d'identifier le noeud
      * 
      */
-    double stress; /**
-     * @brief Double permettant de stocker les efforts appliqués au noeud
+    double stress; /**< @brief Double permettant de stocker les efforts appliqués au noeud
      * 
      */
     
-    double displacement; /**
-     * @brief Double permettant de stocker le déplacement du noeud
+    double displacement; /**< @brief Double permettant de stocker le déplacement du noeud
      * 
      */
 
@@ -47,16 +44,13 @@ typedef struct {
  */
 
 typedef struct {
-    int id; /**
-     * @brief Numéro de l'élément
+    int id; /**< @brief Numéro de l'élément
      * 
      */
-    int node[NodeLink]; /**
-     * @brief Tableau des noeuds connectés à l'éléments
+    int node[NodeLink]; /**< @brief Tableau des noeuds connectés à l'éléments
      *
      * */
-    double rate; /**
-     *@brief Raideur de l'élément
+    double rate; /**< @brief Raideur de l'élément
      *
      */
 
@@ -65,9 +59,40 @@ typedef struct {
 typedef EFNode* pEFNode;
 typedef EFElement* pEFElement;
 
+
+
+
+/**
+ * @brief Structure permettant de stoquer lun système mécanique complet.
+ * 
+ * Les listes chainées ne stockant qu'une pointeur vers la structure utilisée, les données ne sont finalement strockqué qu'une fois bien qu'elles apparaisse dans deux listes.
+ * 
+ */
+
+typedef struct {
+   list ListOfNode;/**< @brief Liste chainée contenant la liste des Noeuds du système. */
+   list ListOfElement;/**< @brief Liste chainée contenant la liste des Elements du système.
+    * 
+    */
+   list ListOfNodeR;/**< @brief Liste chainée contenant la liste des noeuds dans lesquels un déplacement a été afecté.
+    * 
+    */
+   list ListOfNodeF;/**< @brief Liste chainée contanant la liste des noeuds dans lesquels un effort a été affecté.
+    * 
+    */
+   list ListOfMatrix;/**< @brief Liste chainée contenant les matrices utiles dans le système.
+    * 
+    */
+} EFMecanicalSystem;
+
+
+
 pEFElement EFElementFree(pEFElement);
 pEFNode EFNodeFree(pEFNode);
-void EFCreateSystem (list*, list*);
-void EFDispSystem (list, list);
-void EFEquating(list, list, list*);
+void EFCreateSystem (EFMecanicalSystem*);
+void EFDispSystem (EFMecanicalSystem);
+void EFEquating(EFMecanicalSystem*);
 void EFRestitution(list, list, list);
+
+void EFSystemDelete ( EFMecanicalSystem* );
+void EFSystemInit ( EFMecanicalSystem* );
